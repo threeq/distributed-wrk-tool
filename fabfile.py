@@ -133,6 +133,8 @@ def thread_wrapper(conn, host_config, results, lock):
         CMD = './wrk/wrk -t{th} -c{con} -d{dur}s -T{t}s --latency {test_url}'.format(
             th=threads, con=connections, dur=durations, t=time, test_url=url)
 
+    # TODO put script file
+
     def t():
         print(("%s : "+CMD) % (conn.host))
 
@@ -163,8 +165,10 @@ def runtest(ctx):
         conn = Connection(h)
         host_config = read_config(conn.host)
         t = Thread(target=thread_wrapper(conn, host_config, results, lock))
-        t.start()
         threads.append(t)
+
+    for t in threads:
+        t.start()
 
     for t in threads:
         t.join()
