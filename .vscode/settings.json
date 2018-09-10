@@ -1,0 +1,9 @@
+{
+    "python.pythonPath": "/Users/three/.local/share/virtualenvs/distributed-wrk-tool-w-BktXoC/bin/python",
+    "python.unitTest.promptToConfigure": false,
+    "python.unitTest.pyTestEnabled": true,
+    "python.unitTest.unittestEnabled": false,
+    "python.unitTest.nosetestsEnabled": false,
+    "python.formatting.provider": "autopep8",
+    "editor.formatOnSave": true
+}
