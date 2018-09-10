@@ -3,13 +3,13 @@
 wrk 分布式多机压测支持工具。使用 fabric 库支持。
 
 ## TODO
-[*] wrk 多机部署
-[*] wrk 多机运行控制
-[*] wrk 多机运行配置文件支持
-[*] wrk 多机运行结果统计
-[*] 支持 ubuntu
-[*] 支持 centos
-[ ] 支持 jenkins pipeline 发布流程
+- [*] wrk 多机部署
+- [*] wrk 多机运行控制
+- [*] wrk 多机运行配置文件支持
+- [*] wrk 多机运行结果统计
+- [*] 支持 ubuntu
+- [*] 支持 centos
+- [ ] 支持 jenkins pipeline 发布流程
 
 ## 使用
 
