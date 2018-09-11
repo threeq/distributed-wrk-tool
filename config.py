@@ -12,7 +12,7 @@ with open("wrk.yaml", "r") as stream:
 
 
 def read_config(host):
-    base_config = configs["all"]
+    base_config = {k: v for k, v in configs["all"].items()}
     if host in configs:
         host_config = configs[host]
         for k, v in host_config.items():

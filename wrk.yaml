@@ -12,4 +12,5 @@ all:
 
 # 单个压测客户机节点特定配置
 115.159.143.62:
+  script: scripts/delay.lua
   connections: 2

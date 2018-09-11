@@ -1,6 +1,6 @@
 # distributed-wrk-tool
 
-wrk 分布式多机压测支持工具。使用 fabric 库支持。
+wrk 分布式多机压测支持工具。使用 fabric 库。
 
 ## TODO
 - [*] wrk 多机部署
@@ -8,9 +8,11 @@ wrk 分布式多机压测支持工具。使用 fabric 库支持。
 - [*] wrk 多机运行配置文件支持
 - [*] 支持 ubuntu
 - [*] 支持 centos
+- [*] 支持 wrk 测试脚本
 - [ ] wrk 多机运行结果统计  https://blog.csdn.net/ronghuanye/article/details/72955739
-- [ ] 支持 wrk 测试脚本
 - [ ] 支持 jenkins pipeline 发布流程
+- [ ] 测试客户机指标收集
+- [ ] 测试服务器指标收集
 
 ## 使用
 

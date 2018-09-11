@@ -3,6 +3,7 @@ import os
 import sys
 import time
 from threading import Lock, Thread
+from multiprocessing import Process, Queue
 
 import yaml
 from fabric import Connection, task
@@ -50,27 +51,30 @@ def installwrk(ctx):
 @task
 def runtest(ctx):
     nodes = read_nodes().split(",")
-    lock = Lock()
-    threads = []
-    results = []
-    for h in nodes:
-        conn = Connection(h)
+    runners = []
+    results = Queue()
+    for host in nodes:
+        conn = Connection(host)
         host_config = read_config(conn.host)
-        t = Thread(target=wrk.thread_wrapper(conn, host_config, results, lock))
-        threads.append(t)
+        t = Process(
+            target=wrk.thread_builder(conn, host_config),
+            args=(host, results)
+        )
+        runners.append(t)
 
-    for t in threads:
+    for t in runners:
         t.start()
 
-    for t in threads:
+    for t in runners:
         t.join()
 
-    if len(nodes) != len(results):
-        print("部分客户机执行错误")
-        exit(1)
+    # if len(nodes) != results.qsize():
+    #     print("部分客户机执行错误")
+    #     exit(1)
 
     with open('outs/all.txt', 'w') as w:
-        for result in results:
+        for i in range(len(nodes)):
+            result = results.get()
             ret = wrk.parse_result(result['text'])
             print(result['host'], file=w)
             print("="*80, file=w)
