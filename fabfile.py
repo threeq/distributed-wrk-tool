@@ -53,12 +53,12 @@ def runtest(ctx):
     nodes = read_nodes().split(",")
     runners = []
     results = Queue()
-    for host in nodes:
-        conn = Connection(host)
+    for node in nodes:
+        conn = Connection(node)
         host_config = read_config(conn.host)
         t = Process(
             target=wrk.thread_builder(conn, host_config),
-            args=(host, results)
+            args=(node, results)
         )
         runners.append(t)
 
