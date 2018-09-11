@@ -1,0 +1,45 @@
+import yaml
+
+with open("wrk.yaml", "r") as stream:
+    configs = yaml.load(stream)
+    if "nodes" not in configs:
+        print("nodes not found!")
+        exit(1)
+
+    if "all" not in configs:
+        print("all config not found!")
+        exit(1)
+
+
+def read_config(host):
+    base_config = configs["all"]
+    if host in configs:
+        host_config = configs[host]
+        for k, v in host_config.items():
+            base_config[k] = v
+
+    threads = base_config.get('threads', 1)
+    connections = base_config.get('connections', 1)
+    durations = base_config.get('durations', 3)
+    time = base_config.get('time', 1)
+    url = base_config.get('url', None)
+    script = base_config.get('script', None)
+
+    threads = threads if threads is not None else 1
+    connections = connections if connections is not None else 1
+    durations = durations if durations is not None else 3
+    time = time if time is not None else 1
+
+    return {
+        'threads': threads,
+        'connections': connections,
+        'durations': durations,
+        'time': time,
+        'url': url,
+        'script': script,
+    }
+
+
+def read_nodes():
+    nodes = configs.get('nodes', None)
+    return nodes

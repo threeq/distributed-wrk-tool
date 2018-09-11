@@ -1,0 +1,81 @@
+import time
+import re
+
+
+def current_milli_time(): return int(round(time.time() * 1000))
+
+
+def thread_wrapper(conn, host_config, results, lock):
+    threads = host_config.get('threads')
+    connections = host_config.get('connections')
+    durations = host_config.get('durations')
+    time = host_config.get('time')
+    url = host_config.get('url')
+    script = host_config.get('script')
+
+    if url == None:
+        print("%s: test url must provide." % conn.host)
+    if threads > connections:
+        print("%s: number of connections must be >= threads" % conn.host)
+        return
+
+    if script != None:
+        CMD = "./wrk/wrk -t{th} -c{con} -d{dur}s -T{t}s --script={script} --latency {test_url}".format(
+            th=threads, con=connections, dur=durations, t=time, script=script, test_url=url)
+    else:
+        CMD = './wrk/wrk -t{th} -c{con} -d{dur}s -T{t}s --latency {test_url}'.format(
+            th=threads, con=connections, dur=durations, t=time, test_url=url)
+
+    # TODO put script file
+
+    def t():
+        print(("%s : "+CMD) % (conn.host))
+
+        start = current_milli_time()
+        conn.run(CMD + ">wrk_%s_%s.result" % ("test_name", conn.host))
+        end = current_milli_time()
+
+        ret = conn.run("cat wrk_%s_%s.result" % ("test_name", conn.host))
+
+        with lock:
+            results.append({
+                'host': conn.host,
+                'start': start,
+                'end': end,
+                'text': ret.stdout
+            })
+
+    return t
+
+
+def parse_result(text):
+    p1 = '.+?90%\s+(?P<latancy90>\d+\.?\d+\w+)'
+    p2 = 'Requests/sec:\s+(?P<tps>\d+\.?\d+)'
+    p3 = 'Transfer/sec:\s+(?P<tps_io>\d+\.?\d+\w+)'
+    ret = {}
+    m1 = re.search(p1, text)
+    m2 = re.search(p2, text)
+    m3 = re.search(p3, text)
+    if m1:
+        ret['latancy90'] = m1.group("latancy90")
+        ret['tps'] = m2.group("tps")
+        ret['io'] = m3.group("tps_io")
+    return ret
+
+
+def exists(c):
+    result = c.run("./wrk/wrk --help", warn=True)
+    return result.exited != 127
+
+
+def install_ubuntu(c):
+    c.run("sudo apt-get install build-essential libssl-dev git -y")
+    c.run("git clone https://github.com/wg/wrk.git wrk")
+    c.run("cd wrk && sudo make")
+
+
+def install_centos(c):
+    c.run("sudo yum groupinstall 'Development Tools'")
+    c.run("sudo yum install -y openssl-devel git")
+    c.run("git clone https://github.com/wg/wrk.git wrk")
+    c.run("cd wrk && sudo make")
