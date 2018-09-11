@@ -1,12 +1,11 @@
 import os
 import re
 import time
-from macpath import dirname
-from warnings import warn
 from fabric import Connection
 
 
-def current_milli_time(): return int(round(time.time() * 1000))
+def current_milli_time():
+    return int(round(time.time() * 1000))
 
 
 def thread_builder(conn, host_config):
@@ -17,23 +16,23 @@ def thread_builder(conn, host_config):
     threads = host_config.get('threads')
     connections = host_config.get('connections')
     durations = host_config.get('durations')
-    time = host_config.get('time')
+    t = host_config.get('time')
     url = host_config.get('url')
     script = host_config.get('script')
 
-    if url == None:
+    if url is None:
         print("%s: test url must provide." % conn.host)
     if threads > connections:
         print("%s: number of connections must be >= threads" % conn.host)
         return
 
-    if script != None:
+    if script is not None:
         put_script(conn, script)
         cmd = "./wrk/wrk -t{th} -c{con} -d{dur}s -T{t}s --script={script} --latency {test_url}".format(
-            th=threads, con=connections, dur=durations, t=time, script=script, test_url=url)
+            th=threads, con=connections, dur=durations, t=t, script=script, test_url=url)
     else:
         cmd = './wrk/wrk -t{th} -c{con} -d{dur}s -T{t}s --latency {test_url}'.format(
-            th=threads, con=connections, dur=durations, t=time, test_url=url)
+            th=threads, con=connections, dur=durations, t=t, test_url=url)
 
     return lambda node, results: runner_cmd("wrk_lb_test", node, cmd, results)
 
@@ -43,7 +42,7 @@ def runner_cmd(name, node, cmd, results):
     运行命令
     """
     conn = Connection(node)
-    print(("%s : "+cmd) % (conn.host))
+    print(("%s : "+cmd) % conn.host)
 
     start = current_milli_time()
     conn.run(cmd + ">run_%s_%s.out" % (name, conn.host))
@@ -65,7 +64,7 @@ def put_script(conn, script):
     传入到相同的相对目录路径
     """
     dirname = get_dir(script)
-    if dirname != None:
+    if dirname is not None:
         conn.run("mkdir -p %s" % get_dir(script), warn=True)
 
     conn.put(script, script)

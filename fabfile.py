@@ -1,11 +1,5 @@
-import datetime
-import os
-import sys
-import time
-from threading import Lock, Thread
 from multiprocessing import Process, Queue
 
-import yaml
 from fabric import Connection, task
 
 import wrk
@@ -13,10 +7,10 @@ from config import read_config, read_nodes
 
 
 @task
-def installwrk(ctx):
-    '''
+def installwrk(_):
+    """
     deploy wrk to all client host
-    '''
+    """
     nodes = read_nodes().split(",")
     print(nodes)
     for h in nodes:
@@ -49,7 +43,7 @@ def installwrk(ctx):
 
 
 @task
-def runtest(ctx):
+def runtest(_):
     nodes = read_nodes().split(",")
     runners = []
     results = Queue()
@@ -68,14 +62,9 @@ def runtest(ctx):
     for t in runners:
         t.join()
 
-    # if len(nodes) != results.qsize():
-    #     print("部分客户机执行错误")
-    #     exit(1)
-
-    with open('outs/all.txt', 'w') as w:
+    with open('outs/all.txt', 'w') as f:
         for i in range(len(nodes)):
             result = results.get()
-            ret = wrk.parse_result(result['text'])
-            print(result['host'], file=w)
-            print("="*80, file=w)
-            print(result['text'], file=w)
+            print(result['host'], file=f)
+            print("="*80, file=f)
+            print(result['text'], file=f)
