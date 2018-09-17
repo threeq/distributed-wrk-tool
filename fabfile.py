@@ -1,9 +1,10 @@
+import re
 from multiprocessing import Process, Queue
 
 from fabric import Connection, task
 
+import config
 import wrk
-from config import read_config, read_nodes
 
 
 @task
@@ -11,7 +12,7 @@ def installwrk(_):
     """
     deploy wrk to all client host
     """
-    nodes = read_nodes().split(",")
+    nodes = config.read_nodes().split(",")
     print(nodes)
     for h in nodes:
         c = Connection(h)
@@ -44,12 +45,17 @@ def installwrk(_):
 
 @task
 def runtest(_):
-    nodes = read_nodes().split(",")
+    """
+    运行分布式测试
+    :param _:
+    :return:
+    """
+    nodes = config.read_nodes().split(",")
     runners = []
     results = Queue()
     for node in nodes:
         conn = Connection(node)
-        host_config = read_config(conn.host)
+        host_config = config.read_config(conn.host)
         t = Process(
             target=wrk.thread_builder(conn, host_config),
             args=(node, results)
@@ -62,9 +68,17 @@ def runtest(_):
     for t in runners:
         t.join()
 
+    all_result = []
     with open('outs/all.txt', 'w') as f:
         for i in range(len(nodes)):
             result = results.get()
+
+            all_result.append(result)
+
             print(result['host'], file=f)
-            print("="*80, file=f)
+            print("=" * 80, file=f)
             print(result['text'], file=f)
+
+        merged_ret = wrk.merge_result(all_result, config.read_result_conf())
+        print(wrk.format_result(merged_ret))
+        print(wrk.format_result(merged_ret), file=f)

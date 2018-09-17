@@ -9,10 +9,11 @@ wrk 分布式多机压测支持工具。使用 fabric 库。
 - [*] 支持 ubuntu
 - [*] 支持 centos
 - [*] 支持 wrk 测试脚本
-- [ ] wrk 多机运行结果统计  https://blog.csdn.net/ronghuanye/article/details/72955739
-- [ ] 支持 jenkins pipeline 发布流程
+- [*] wrk 多机运行结果统计
 - [ ] 测试客户机指标收集
 - [ ] 测试服务器指标收集
+- [ ] 实现更合理、更准确的统计
+- [ ] web 优化界面
 
 ## 使用
 

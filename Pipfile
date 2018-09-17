@@ -8,6 +8,7 @@ pylint = "*"
 pytest = "*"
 autopep8 = "*"
 rope = "*"
+fabric = {extras = ["testing"]}
 
 [packages]
 fabric = "*"

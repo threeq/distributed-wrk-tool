@@ -21,20 +21,20 @@ def read_config(host):
     threads = base_config.get('threads', 1)
     connections = base_config.get('connections', 1)
     durations = base_config.get('durations', 3)
-    time = base_config.get('time', 1)
+    timeout = base_config.get('timeout', 3)
     url = base_config.get('url', None)
     script = base_config.get('script', None)
 
     threads = threads if threads is not None else 1
     connections = connections if connections is not None else 1
     durations = durations if durations is not None else 3
-    time = time if time is not None else 1
+    timeout = timeout if timeout is not None else 1
 
     return {
         'threads': threads,
         'connections': connections,
         'durations': durations,
-        'time': time,
+        'timeout': timeout,
         'url': url,
         'script': script,
     }
@@ -43,3 +43,7 @@ def read_config(host):
 def read_nodes():
     nodes = configs.get('nodes', None)
     return nodes
+
+
+def read_result_conf():
+    return configs.get('result', None)

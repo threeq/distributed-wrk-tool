@@ -8,9 +8,68 @@ all:
   connections:  1        # 每台压力机创建的连接数，必须大于或者等于启动线程数
   durations:    3        # 测试脚本运行时长，单位秒
   time:         1        # 单位秒
-  url:          https://www.baidu.com/   # 请求发送的地址
+#  url:          https://www.baidu.com/   # 请求发送的地址
+  url: https://www.vchangyi.com/aaa.php
+
 
 # 单个压测客户机节点特定配置
 115.159.143.62:
   script: scripts/delay.lua
   connections: 2
+#  url: https://www.vchangyi.com/aaa.php
+
+result:
+  duration:
+    regex: Running\s+(?P<duration>\d+\w+)
+    type: time
+    merge: one
+  threads:
+    regex: .+?\s+(?P<threads>\d+)\s+threads
+    type: number
+    merge: sum
+  connections:
+    regex: .+?\s+(?P<connections>\d+)\s+connections
+    type: number
+    merge: sum
+  requests:
+    regex: .+?\s+(?P<requests>\d+)\s+requests
+    type: number
+    merge: sum
+  spend_time:
+    regex: .+?in\s+(?P<spend_time>\d+\.?\d+\w+),\s+
+    type: time
+    merge: max
+  traffic_statistics:
+    regex: .+?\s+(?P<traffic_statistics>\d+\.?\d+\w+)\s+read
+    type: network_traffic
+    merge: sum
+  tps:
+    regex: Requests/sec:\s+(?P<tps>\d+\.?\d+)
+    type: number
+    merge: sum
+  tps_io:
+    regex: Transfer/sec:\s+(?P<tps_io>\d+\.?\d+\w+)
+    type: network_traffic
+    merge: sum
+  latency:
+    p50:
+      regex: .+?50%\s+(?P<latency_p50>\d+\.?\d+\w+)
+      type: time
+      merge: avg
+    p75:
+      regex: .+?75%\s+(?P<latency_p75>\d+\.?\d+\w+)
+      type: time
+      merge: avg
+    p90:
+      regex: .+?90%\s+(?P<latency_p90>\d+\.?\d+\w+)
+      type: time
+      merge: avg
+    p99:
+      regex: .+?99%\s+(?P<latency_p99>\d+\.?\d+\w+)
+      type: time
+      merge: avg
+  error:
+    response:
+      regex: .+?Non-2xx.+3xx\s+responses:\s+(?P<error_response>\d+)
+      type: number
+      merge: sum
