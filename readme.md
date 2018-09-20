@@ -1,6 +1,6 @@
 # distributed-wrk-tool
 
-wrk 分布式多机压测支持工具。使用 fabric 库。
+wrk 分布式多机压测支持工具。使用 Prometheus 作为测试工程中服务器监控工具
 
 ## TODO
 - [x] wrk 多机部署
@@ -10,10 +10,11 @@ wrk 分布式多机压测支持工具。使用 fabric 库。
 - [x] 支持 centos
 - [x] 支持 wrk 测试脚本
 - [x] wrk 多机运行结果统计
-- [ ] 测试客户机指标收集
+- [x] 测试客户机指标收集
 - [ ] 测试服务器指标收集
-- [ ] 实现更合理、更准确的统计
 - [ ] web UI
+- [ ] 实现更合理、更准确的统计
+
 
 ## 使用
 
@@ -71,3 +72,79 @@ all:
 pipenv run fab runtest
 ```
 
+3. 本地 prometheus 监控服务器安装和运行
+
+在 `wrk.yaml` 里面配置监控信息。
+
+```yaml
+# 监控配置
+monitor:
+  # 服务器机器监控
+  prometheus:
+    # my global config
+    global:
+      scrape_interval:     5s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+      evaluation_interval: 5s # Evaluate rules every 15 seconds. The default is every 1 minute.
+      # scrape_timeout is set to the global default (10s).
+
+    # Alertmanager configuration
+    alerting:
+      alertmanagers:
+      - static_configs:
+        - targets:
+          # - alertmanager:9093
+
+    # Load rules once and periodically evaluate them according to the global 'evaluation_interval'.
+    rule_files:
+    # - "first_rules.yml"
+    # - "second_rules.yml"
+
+    # A scrape configuration containing exactly one endpoint to scrape:
+    # Here it's Prometheus itself.
+    scrape_configs:
+    # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+    - job_name: 'client-nodes'
+
+      # metrics_path defaults to '/metrics'
+      # scheme defaults to 'http'.
+
+      static_configs:
+      - targets: ['115.159.143.62:9100']
+```
+
+> 在 `monitor.prometheus` 下的配置信息和原始 `pprometheus` 配置信息完全相同，
+> 具体配置可以参考 [Prometheus官方文档](https://prometheus.io/)
+
+安装
+```bash
+pipenv run fab installprometheus
+```
+
+运行
+```bash
+pipenv run fab runprometheus
+```
+
+停止
+```bash
+pipenv run fab stopprometheus
+```
+
+
+4. 测试客户机监控代理客户端安装和运行
+
+服务器性能指标收集使用 `node-exporter`
+
+安装
+```bash
+pipenv run fab installexporter
+```
+
+运行
+```bash
+pipenv run fab runexporter
+```
+
+停止
+```bash
+pipenv run fab stopexporter

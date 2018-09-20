@@ -47,3 +47,7 @@ def read_nodes():
 
 def read_result_conf():
     return configs.get('result', None)
+
+
+def read_monitor():
+    return configs.get('monitor', None)
