@@ -51,3 +51,14 @@ def read_result_conf():
 
 def read_monitor():
     return configs.get('monitor', None)
+
+
+def read_monitor_nodes():
+    monitor = read_monitor()
+    if monitor is None:
+        return []
+    server_nodes = monitor.get('nodes', None)
+    if server_nodes is None:
+        return []
+
+    return [n for n in server_nodes]
