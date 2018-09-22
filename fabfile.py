@@ -108,8 +108,16 @@ def stopprometheus(_):
 
 @task
 def installexporter(_):
-    nodes = config.read_nodes()
-    for node in nodes:
+    monitor = config.read_monitor()
+    if monitor is None:
+        return
+    server_nodes = monitor.get('nodes', None)
+    if server_nodes is None:
+        return
+
+    monitor_nodes = [n for n in server_nodes]
+
+    for node in monitor_nodes:
         with Connection(node) as ctx:
             print(node)
             prom.remote_install_node_exporter(ctx)

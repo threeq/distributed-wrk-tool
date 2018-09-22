@@ -3,6 +3,7 @@ nodes: ["root@115.159.143.62"]
 
 # 监控配置
 monitor:
+  nodes: ["root@115.159.143.62"]
   # 服务器机器监控
   prometheus:
     # my global config
