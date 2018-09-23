@@ -5,3 +5,8 @@ mydb = myclient["test-cloud"]
 
 user_collection = mydb['user']
 project_collection = mydb['project']
+
+
+class MongoCrud:
+    def __init__(self, collection):
+        self.collection = collection

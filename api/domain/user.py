@@ -1,6 +1,8 @@
 from abc import ABC
 
 from api.base import Entity, Storage
+from api.domain.code_def import Code
+from api.domain.exception import DomainException
 
 
 class UserStorage(Storage, ABC):
@@ -13,7 +15,7 @@ class User(Entity):
     """
 
     def __init__(self, **kwargs):
-        Entity.__init__(self, **kwargs)
+        super(User, self).__init__(**kwargs)
 
         self.name = kwargs.get("name", None)
         self.pwd = kwargs.get("pwd", None)
@@ -24,16 +26,19 @@ class User(Entity):
     def save(self, storage):
 
         if self.id() is None and self.phone is None and self.email is None:
-            raise Exception('phone and email cannot be null at same time.')
+            raise DomainException('phone and email cannot be null at same time.')
 
         only_phone = self.phone is None or self.enable_only_field(storage, {'phone': self.phone})
         only_email = self.email is None or self.enable_only_field(storage, {'email': self.email})
 
         if not only_phone:
-            raise Exception("phone has exist")
+            raise DomainException(Code.EXIST_PHONE)
 
         if not only_email:
-            raise Exception("email has exist")
+            raise DomainException(Code.EXIST_EMAIL)
+
+        if self.id() is not None and storage.get(self.id()) is None:
+            raise DomainException(Code.NO_DATA, 'user not exist')
 
         return Entity.save(self, storage)
 
@@ -48,3 +53,14 @@ class User(Entity):
             return False
         else:
             return True
+
+
+class UserService:
+    def __init__(self, storage):
+        self.storage = storage
+
+    def login(self, name, pwd):
+        pass
+
+    def register(self, user):
+        return user.save(self.storage)
