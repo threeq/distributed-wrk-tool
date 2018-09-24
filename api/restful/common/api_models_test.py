@@ -2,7 +2,7 @@ import json
 
 from flask_restful import fields, marshal
 
-from api.restful.api_models import marshal_wrapper
+from api.restful.common.api_models import marshal_wrapper
 
 
 def test_marshal_wrapper():

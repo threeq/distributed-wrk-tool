@@ -1,7 +1,7 @@
 from flask import Blueprint
 from flask_restful import Api
 
-from api.restful.user_api import UserApi, UserListApi
+from api.restful.resources.user_api import UserApi, UserListApi
 
 api_v1_blueprint = Blueprint('api_v1_blueprint', __name__, url_prefix='/api/v1')
 api_v1 = Api(api_v1_blueprint)

@@ -2,7 +2,7 @@ import copy
 
 from flask_restful import fields
 
-from api.domain.code_def import Code, Code_Msg
+from api.common.code_def import Code, Code_Msg
 
 
 class ResponseEntity:

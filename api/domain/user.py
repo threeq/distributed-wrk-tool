@@ -1,8 +1,8 @@
 from abc import ABC
 
 from api.base import Entity, Storage
-from api.domain.code_def import Code
-from api.domain.exception import DomainException
+from api.common.code_def import Code
+from api.common.exception import DomainException
 
 
 class UserStorage(Storage, ABC):

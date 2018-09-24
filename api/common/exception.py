@@ -1,4 +1,4 @@
-from api.domain.code_def import Code
+from api.common.code_def import Code
 
 
 class DomainException(RuntimeError):

@@ -2,7 +2,7 @@ from flask import request
 from flask_restful import Resource, marshal_with, fields
 
 from api.domain.user import User
-from api.restful.api_models import ResponseEntity, marshal_wrapper, RollPage, Code, page_marshal_wrapper
+from api.restful.common.api_models import ResponseEntity, marshal_wrapper, RollPage, Code, page_marshal_wrapper
 from api.storage.user_storage import UserStorageMgo
 
 base_fields = fields.Nested({

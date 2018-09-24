@@ -2,8 +2,8 @@ import datetime
 
 from bson import ObjectId
 
-from api.restful.api_models import Code
-from api.restful.router import app
+from api.restful.common.api_models import Code
+from api.restful.app import app
 
 
 def test_api_user_get():
@@ -22,8 +22,8 @@ def test_api_user_get():
 def test_api_user_get_not_found():
     with app.test_client() as c:
         gen_time = datetime.datetime(1992, 1, 1)
-        id = ObjectId.from_datetime(gen_time)
-        rv = c.get('/api/v1/user/'+str(id))
+        _id = ObjectId.from_datetime(gen_time)
+        rv = c.get('/api/v1/user/'+str(_id))
         json_data = rv.get_json()
         print(json_data)
         assert 400 > rv.status_code >= 200
