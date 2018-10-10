@@ -1,0 +1,52 @@
+<app-login-header></app-login-header>
+
+<div class="login-card-container">
+  <mat-card class="login-card">
+    <mat-card-content class="login-card-content">
+      <div>
+        <img src="./assets/iamges/logo.png">
+      </div>
+
+      <mat-form-field>
+        <input matInput placeholder="{{'Name' | translate}}"
+               [(ngModel)]="name"
+               [formControl]="nameFromCtrl" required>
+        <mat-error *ngIf="nameFromCtrl.invalid">{{getErrorMessage(nameFromCtrl) | translate}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{'Email' | translate}}"
+               [(ngModel)]="email"
+               [formControl]="emailFromCtrl" required>
+        <mat-error *ngIf="emailFromCtrl.invalid">{{getErrorMessage(emailFromCtrl) | translate}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{'Password' | translate}}"
+               [type]="show ? 'text' : 'password'"
+               [(ngModel)]="pwd"
+               [formControl]="passwordFromCtrl" required>
+        <mat-icon matSuffix (click)="show = !show">{{show ? 'visibility' : 'visibility_off'}}</mat-icon>
+        <mat-error *ngIf="passwordFromCtrl.invalid">{{getErrorMessage(passwordFromCtrl) | translate}}</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <input matInput placeholder="{{'Confirm Password' | translate}}"
+               [type]="show ? 'text' : 'password'"
+               [(ngModel)]="confirmPwd"
+               [formControl]="confirmPwdFromCtrl" required>
+        <mat-icon matSuffix (click)="show = !show">{{show ? 'visibility' : 'visibility_off'}}</mat-icon>
+        <mat-error *ngIf="confirmPwdFromCtrl.invalid">{{getErrorMessage(confirmPwdFromCtrl) | translate}}</mat-error>
+      </mat-form-field>
+
+      <div class="button-row">
+        <button mat-raised-button color="primary"
+              routerLink="/login">{{'Cancel' | translate}}</button>
+        <button mat-raised-button color="accent"
+              (click)="doSubmit()">{{'Submit' | translate}}</button>
+      </div>
+
+
+    </mat-card-content>
+  </mat-card>
+</div>

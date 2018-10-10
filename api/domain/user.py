@@ -1,6 +1,6 @@
 from abc import ABC
 
-from api.base import Entity, Storage
+from api.base import Entity, Storage, ApplicationService
 from api.common.code_def import Code
 from api.common.exception import DomainException
 
@@ -55,12 +55,14 @@ class User(Entity):
             return True
 
 
-class UserService:
+class UserService(ApplicationService):
     def __init__(self, storage):
-        self.storage = storage
+        ApplicationService.__init__(self, storage)
 
     def login(self, name, pwd):
         pass
 
     def register(self, user):
         return user.save(self.storage)
+
+

@@ -45,3 +45,20 @@ class Entity:
     def delete(self, storage):
         if self.id() is not None:
             storage.delete(self.id())
+
+
+class ApplicationService:
+    def __init__(self, storage):
+        self.storage = storage
+
+    def detail(self, _id):
+        return self.storage.get(_id)
+
+    def save(self, entity):
+        return entity.save(self.storage)
+
+    def find_by_filter(self, *args, **kwargs):
+        return self.storage.find_by_filter(*args, **kwargs)
+
+    def delete(self, user_id):
+        self.storage.delete(user_id)

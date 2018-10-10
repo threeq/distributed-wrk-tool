@@ -49,7 +49,13 @@ def marshal_merge(marshal_def, envelope=None):
     return marshal_def
 
 
-def marshal_wrapper(marshal_def):
+def marshal_wrapper(marshal_def=None):
+    if marshal_def is None:
+        return {
+            'code': fields.Integer,
+            'msg': fields.String,
+        }
+
     marshal_def = copy.deepcopy(marshal_def)
     return {
         'code': fields.Integer,

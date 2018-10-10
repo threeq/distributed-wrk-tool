@@ -1,0 +1,17 @@
+{
+  "language":"Language",
+  "zh-CN": "Chinese",
+  "en":"English",
+
+  "Login": "Login",
+  "login-help":"Login Help?",
+  "forget-pwd":"Forget Password?",
+  "login-name-placeholder": "Enter your name/email/phone",
+  "login-pwd-placeholder": "Enter your password",
+  "go-login": "Go Login",
+
+
+  "error-required": "You must enter a value",
+  "error-email": "Not a valid email",
+  "error-length": "data length error"
+}

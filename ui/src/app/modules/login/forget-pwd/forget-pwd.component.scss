@@ -1,0 +1,14 @@
+@import "../register/register.component";
+
+.full-width {
+  width: 100%;
+}
+
+.login-card-container {
+
+  .send-code-btn {
+    background-color: #e2e1e187;
+    float: right;
+    margin-top: -12px;
+  }
+}

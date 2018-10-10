@@ -1,0 +1,29 @@
+.login-card-container {
+  width: 480px;
+  margin: 30px auto;
+}
+
+.login-card {
+  text-align:center;
+  justify-content:center;
+  .login-card-content {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+  }
+  img {
+    width: 128px;
+    height: auto;
+  }
+  .mat-form-field {
+    margin: 10px 0;
+  }
+  .btn-login {
+    margin: 30px 0 20px;
+  }
+  .login-help-info{
+    display: flex;
+    justify-content: space-between;
+    cursor: pointer;
+  }
+}

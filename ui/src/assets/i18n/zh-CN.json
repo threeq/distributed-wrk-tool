@@ -1,0 +1,30 @@
+{
+  "language":"语言",
+  "zh-CN": "中文",
+  "en":"英文",
+
+  "Load Test Manage": "压力测试管理",
+  "Two passwords are inconsistent": "两次密码不一致",
+  "Name": "名字",
+  "Email": "邮箱",
+  "Password":"密码",
+  "Confirm Password":"确认密码",
+  "Valid Code": "验证码",
+  "Send Code": " 发送验证码",
+
+  "Submit": "提交",
+  "Cancel": "取消",
+
+  "Login": "登录",
+  "Register": "注册",
+  "login-help":"需要帮助 ?",
+  "forget-pwd":"忘记密码 ?",
+  "login-name-placeholder": "输入 登录名/邮箱/手机号",
+  "login-pwd-placeholder": "输入密码",
+  "go-login": "返回登录",
+
+
+  "error-required": "必须输入一个值",
+  "error-email": "邮箱格式错误",
+  "error-length": "数据长度不对"
+}

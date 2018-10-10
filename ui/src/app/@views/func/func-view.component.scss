@@ -1,0 +1,19 @@
+.func-view {
+  .side-nav,.content-container {
+    padding-top: 74px;
+  }
+  .side-nav {
+    position: fixed;
+    height: 100%;
+    display: flex;
+
+    .sidenav {
+      margin-top: 64px;
+    }
+  }
+
+  .content-container {
+    padding-left: 215px;
+    padding-right: 10px;
+  }
+}

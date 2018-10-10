@@ -111,3 +111,6 @@ out/
 outs/
 run-tools/
 data/
+
+# mac
+.DS_Store
