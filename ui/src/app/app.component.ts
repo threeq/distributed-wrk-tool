@@ -2,6 +2,7 @@ import {Component} from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {Title} from "@angular/platform-browser";
 import {AppConfig} from "./app.config";
+import {ActivatedRoute, NavigationStart, Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,12 @@ import {AppConfig} from "./app.config";
 export class AppComponent {
   private appName: string = AppConfig.appName;
 
-  constructor(private translate: TranslateService, private titleService: Title) {
+  constructor(
+    private translate: TranslateService,
+    private titleService: Title,
+    private router: Router,
+    private activatedRoute: ActivatedRoute) {
+
     //添加语言支持
     translate.addLangs(['zh-CN', 'en']);
     //设置默认语言，一般在无法匹配的时候使用

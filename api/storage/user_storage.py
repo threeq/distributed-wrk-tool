@@ -14,7 +14,7 @@ class UserStorageMgo(UserStorage):
         return [User(**doc) for doc in docs]
 
     def save(self, user):
-        data = {k: v for k, v in vars(user).items() if v is not None}  # user.__dict__
+        data = {k: v for k, v in vars(user).items() if v is not None}  # loginStatus.__dict__
 
         return self.__do_write(user.id(), data)
 

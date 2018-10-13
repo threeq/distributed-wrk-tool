@@ -10,8 +10,6 @@ import {EmailOnlyValidator, EqualValidator} from "../../../plugins/validators";
 })
 export class ForgetPwdComponent implements OnInit {
 
-  private appConfig: AppConfig = new AppConfig();
-
   codeFromCtrl = new FormControl('', [
     Validators.required,
     Validators.minLength(4),
@@ -20,7 +18,7 @@ export class ForgetPwdComponent implements OnInit {
   emailFromCtrl = new FormControl('', [
     Validators.required,
     Validators.email,
-    EmailOnlyValidator.builder(this.appConfig.validatorUrls.email)
+    EmailOnlyValidator.builder(AppConfig.validatorUrls.email)
   ]);
   passwordFromCtrl = new FormControl('', [
     Validators.required,

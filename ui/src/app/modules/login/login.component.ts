@@ -4,6 +4,7 @@ import {SystemApiService, User} from "../@common/api/system-api.service";
 import {ResponseEntity} from "../@common/api/base-api";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material";
+import {AppConfig} from "../../app.config";
 
 @Component({
   selector: 'app-login',
@@ -26,9 +27,10 @@ export class LoginComponent implements OnInit {
   constructor(private systemApi: SystemApiService,
               private snackBar: MatSnackBar,
               private route: Router) {
+
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
   }
 
   getErrorMessage(field) {
@@ -43,7 +45,7 @@ export class LoginComponent implements OnInit {
       Object.setPrototypeOf(res, ResponseEntity.prototype);
 
       if (res.ok()) {
-        // TODO 登录处理
+        AppConfig.setUser(res.data);
         this.route.navigateByUrl("/modules/dashboard");
       } else {
         this.snackBar.open(res.msg, "OK", {
@@ -63,5 +65,6 @@ export class LoginComponent implements OnInit {
   doRegister() {
     this.route.navigateByUrl("/login/register")
   }
+
 }
 

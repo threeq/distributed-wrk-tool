@@ -38,7 +38,7 @@ class User(Entity):
             raise DomainException(Code.EXIST_EMAIL)
 
         if self.id() is not None and storage.get(self.id()) is None:
-            raise DomainException(Code.NO_DATA, 'user not exist')
+            raise DomainException(Code.NO_DATA, 'loginStatus not exist')
 
         return Entity.save(self, storage)
 

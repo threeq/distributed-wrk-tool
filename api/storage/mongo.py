@@ -3,7 +3,7 @@ import pymongo
 myclient = pymongo.MongoClient("mongodb://localhost:27017/")
 mydb = myclient["test-cloud"]
 
-user_collection = mydb['user']
+user_collection = mydb['loginStatus']
 project_collection = mydb['project']
 
 
