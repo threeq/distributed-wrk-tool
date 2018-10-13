@@ -8,7 +8,7 @@ import {AppConfig} from "../../../app.config";
   styleUrls: ['./login-header.component.scss']
 })
 export class LoginHeaderComponent implements OnInit {
-  public appConfig: AppConfig = new AppConfig();
+  public appName = AppConfig.appName;
 
   constructor(private translate: TranslateService) { }
 

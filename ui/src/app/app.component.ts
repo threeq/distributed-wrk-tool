@@ -8,7 +8,7 @@ import {AppConfig} from "./app.config";
   template: '<router-outlet></router-outlet>'
 })
 export class AppComponent {
-  private appConfig: AppConfig = new AppConfig();
+  private appName: string = AppConfig.appName;
 
   constructor(private translate: TranslateService, private titleService: Title) {
     //添加语言支持
@@ -19,7 +19,7 @@ export class AppComponent {
     let prevValue = null;
     translate.onLangChange.subscribe(() => {
       if (prevValue == null || prevValue == this.titleService.getTitle()) {
-        translate.get(this.appConfig.appName).subscribe(value => {
+        translate.get(this.appName).subscribe(value => {
           titleService.setTitle(value);
           prevValue = value;
         });

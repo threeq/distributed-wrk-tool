@@ -6,7 +6,7 @@
   "Login": "Login",
   "login-help":"Login Help?",
   "forget-pwd":"Forget Password?",
-  "login-name-placeholder": "Enter your name/email/phone",
+  "login-name-placeholder": "Enter your email",
   "login-pwd-placeholder": "Enter your password",
   "go-login": "Go Login",
 

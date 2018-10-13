@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
-import {SystemApiService} from "../@common/api/system-api.service";
+import {SystemApiService, User} from "../@common/api/system-api.service";
 import {ResponseEntity} from "../@common/api/base-api";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material";
@@ -13,14 +13,14 @@ import {MatSnackBar} from "@angular/material";
 export class LoginComponent implements OnInit {
 
 
-  loginName = new FormControl('', [
+  emailCtrl = new FormControl('', [
     Validators.required,
-    Validators.minLength(3)]);
+    Validators.email]);
   passWord = new FormControl('', [
     Validators.required,
     Validators.minLength(6)]);
 
-  private name: string;
+  private email: string;
   private pwd: string;
 
   constructor(private systemApi: SystemApiService,
@@ -38,28 +38,25 @@ export class LoginComponent implements OnInit {
           '';
   }
 
-  gotoHelp() {
-
-  }
-
   doLogin() {
-    this.systemApi.login(this.name, this.pwd).subscribe((data) => {
-      console.log("login result: ", data);
+    this.systemApi.login(this.email, this.pwd).subscribe((res: ResponseEntity<User>) => {
+      Object.setPrototypeOf(res, ResponseEntity.prototype);
 
-      if (this.systemApi.checkOK(<ResponseEntity>data)) {
+      if (res.ok()) {
+        // TODO 登录处理
         this.route.navigateByUrl("/modules/dashboard");
       } else {
-        this.snackBar.open("login error", "OK", {
+        this.snackBar.open(res.msg, "OK", {
           duration: 2000,
         });
-        this.route.navigateByUrl("/modules/dashboard");
       }
-    }, (error) => {
-      console.log("接口错误", error);
-      this.snackBar.open("接口错误", "OK", {
+    }, (res) => {
+      console.log("接口错误", res);
+
+      let error = <ResponseEntity<User>>res.error;
+      this.snackBar.open(error.msg, "OK", {
         duration: 2000,
       });
-      this.route.navigateByUrl("/modules/dashboard");
     })
   }
 

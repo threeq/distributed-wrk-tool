@@ -8,10 +8,9 @@ import {AppConfig} from "../../../app.config";
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  public appConfig: AppConfig = new AppConfig();
+  public appName = AppConfig.appName;
 
   constructor(private translate: TranslateService) {
-    this.appConfig = new AppConfig()
   }
 
   changeLang(lang) {

@@ -9,13 +9,14 @@
 
       <mat-form-field>
         <input matInput placeholder="{{'login-name-placeholder' | translate}}"
-               [(ngModel)]="name"
-               [formControl]="loginName" required>
-        <mat-error *ngIf="loginName.invalid">{{getErrorMessage(loginName) | translate}}</mat-error>
+               [(ngModel)]="email"
+               [formControl]="emailCtrl" required>
+        <mat-error *ngIf="emailCtrl.invalid">{{getErrorMessage(emailCtrl) | translate}}</mat-error>
       </mat-form-field>
 
       <mat-form-field>
         <input matInput placeholder="{{'login-pwd-placeholder' | translate}}"
+               type="password"
                [(ngModel)]="pwd"
                [formControl]="passWord" required>
         <mat-error *ngIf="passWord.invalid">{{getErrorMessage(passWord) | translate}}</mat-error>

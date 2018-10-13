@@ -51,6 +51,8 @@ export class RegisterComponent implements OnInit {
     user.pwd = this.passwordFromCtrl.value;
     this.systemApi.register(user).subscribe((data)=>{
       console.log(data)
+    }, errorData => {
+      console.log(errorData.error)
     })
   }
 

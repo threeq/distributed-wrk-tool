@@ -3,6 +3,7 @@ import copy
 from flask_restful import fields
 
 from api.common.code_def import Code, Code_Msg
+from tools import time
 
 
 class ResponseEntity:
@@ -11,12 +12,14 @@ class ResponseEntity:
         self.code = kwargs.get('code', Code.OK)
         self.msg = kwargs.get('msg', Code_Msg.get(self.code, '【{0}】No description'.format(self.code)))
         self.data = kwargs.get('data', None)
+        self.timestamp = time.now_milli_time()
 
     def dict(self):
         return dict(
             code=self.code,
             msg=self.msg,
-            data=self.data
+            data=self.data,
+            timestamp=self.timestamp
         )
 
 

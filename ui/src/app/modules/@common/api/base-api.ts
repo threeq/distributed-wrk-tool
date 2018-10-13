@@ -1,14 +1,15 @@
 
-export class ResponseEntity {
+export class ResponseEntity<T=any> {
   code: number;
-  message: string;
+  msg: string;
   timestamp: number;
-  data: any;
+  data: T;
+
+  ok() {
+    return this.code == 10000;
+  }
 }
 
 export class BaseApi {
   constructor(){}
-  checkOK(result: ResponseEntity) {
-    return result.code == 200;
-  }
 }

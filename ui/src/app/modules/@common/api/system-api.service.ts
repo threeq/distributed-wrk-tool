@@ -16,7 +16,7 @@ export class User {
 export class SystemApiService extends BaseApi {
 
   private baseUrl: string = AppConfig.apiHost + "/v1";
-  private loginUrl: string = this.baseUrl + '';
+  private loginUrl: string = this.baseUrl + '/sys/login';
   private registerUrl: string = this.baseUrl + '/users';
 
   constructor(private http: HttpClient) {
@@ -24,12 +24,10 @@ export class SystemApiService extends BaseApi {
   }
 
 
-  login(loginName: string, pwd: string) {
+  login(email: string, pwd: string) {
     return this.http.post(this.loginUrl, {
-      name: loginName,
+      email: email,
       pwd: pwd
-    }, {
-      withCredentials: true
     })
   }
 

@@ -59,10 +59,17 @@ class UserService(ApplicationService):
     def __init__(self, storage):
         ApplicationService.__init__(self, storage)
 
-    def login(self, name, pwd):
-        pass
+    def login(self, email, pwd):
+        docs = self.find_by_filter({'email': email})
+        if len(docs) != 1:
+            raise DomainException(Code.ERR_EMAIL)
+
+        if docs[0].pwd != pwd:
+            raise DomainException(Code.ERR_PWD)
+
+        print(docs[0].__dict__)
+
+        return docs[0]
 
     def register(self, user):
         return user.save(self.storage)
-
-

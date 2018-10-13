@@ -19,7 +19,7 @@
   "Register": "注册",
   "login-help":"需要帮助 ?",
   "forget-pwd":"忘记密码 ?",
-  "login-name-placeholder": "输入 登录名/邮箱/手机号",
+  "login-name-placeholder": "输入邮箱",
   "login-pwd-placeholder": "输入密码",
   "go-login": "返回登录",
 
