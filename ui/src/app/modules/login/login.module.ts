@@ -31,6 +31,7 @@ import { RegisterComponent } from './register/register.component';
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,
+    ApiModule,
     RouterModule.forChild([
       {
         path: '',

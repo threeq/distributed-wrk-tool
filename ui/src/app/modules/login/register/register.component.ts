@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
 import {EmailOnlyValidator, EqualValidator} from "../../../plugins/validators";
 import {AppConfig} from "../../../app.config";
+import {SystemApiService, User} from "../../@common/api/system-api.service";
 
 @Component({
   selector: 'app-register',
@@ -9,7 +10,6 @@ import {AppConfig} from "../../../app.config";
   styleUrls: ['./register.component.scss']
 })
 export class RegisterComponent implements OnInit {
-  private appConfig: AppConfig = new AppConfig();
 
   nameFromCtrl = new FormControl('', [
     Validators.required,
@@ -17,7 +17,7 @@ export class RegisterComponent implements OnInit {
   emailFromCtrl = new FormControl('', [
     Validators.required,
     Validators.email,
-    EmailOnlyValidator.builder(this.appConfig.validatorUrls.email)
+    EmailOnlyValidator.builder(AppConfig.validatorUrls.email)
   ]);
   passwordFromCtrl = new FormControl('', [
     Validators.required,
@@ -28,7 +28,7 @@ export class RegisterComponent implements OnInit {
   ]);
 
 
-  constructor() {
+  constructor(private systemApi:SystemApiService) {
   }
 
   getErrorMessage(fieldCtrl) {
@@ -45,7 +45,13 @@ export class RegisterComponent implements OnInit {
   }
 
   doSubmit() {
-
+    let user = new User();
+    user.email = this.emailFromCtrl.value;
+    user.name = this.nameFromCtrl.value;
+    user.pwd = this.passwordFromCtrl.value;
+    this.systemApi.register(user).subscribe((data)=>{
+      console.log(data)
+    })
   }
 
 }
