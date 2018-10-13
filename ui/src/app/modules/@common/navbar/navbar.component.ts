@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 import {AppConfig} from "../../../app.config";
+import {User} from "../api/system-api.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-navbar',
@@ -8,22 +10,28 @@ import {AppConfig} from "../../../app.config";
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  public appName = AppConfig.appName;
+  appName: string;
+  user: User;
+  translateService: TranslateService;
 
-  constructor(private translate: TranslateService) {
+  constructor(
+    translateService: TranslateService,
+    private router: Router) {
+    this.translateService = translateService;
   }
 
   changeLang(lang) {
     console.log("Using language: " + lang);
-    this.translate.use(lang);
-  }
-  toggleLang() {
-    console.log(this.translate.getBrowserLang());
-    //获取语言风格，相当于更详细的语言类型，比如zh-CN、zh-TW、en-US
-    console.log(this.translate.getBrowserCultureLang());
+    this.translateService.use(lang);
   }
 
   ngOnInit() {
+    this.appName = AppConfig.appName;
+    this.user = AppConfig.getUser();
   }
 
+  doLogout() {
+    AppConfig.clearUser();
+    this.router.navigateByUrl("/")
+  }
 }

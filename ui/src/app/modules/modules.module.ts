@@ -14,11 +14,8 @@ import {
 import { TableComponent } from './table/table.component';
 import {FuncViewModule} from "../@views/func/func-view.module";
 import {LoginModule} from "./login/login.module";
+import { ProjectsComponent } from './projects/projects.component';
 
-
-const PAGES_COMPONENTS = [
-  DashboardComponent,
-];
 
 @NgModule({
   imports: [
@@ -42,8 +39,9 @@ const PAGES_COMPONENTS = [
     LoginModule
   ],
   declarations: [
-    ...PAGES_COMPONENTS,
-    TableComponent
+    DashboardComponent,
+    TableComponent,
+    ProjectsComponent
   ]
 })
 export class ModulesModule {

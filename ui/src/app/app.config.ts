@@ -41,6 +41,17 @@ export class AppConfig {
     return AppConfig.loginStatus.data || storage.getObject(USER_STORAGE_KEY).data;
   }
 
+  static clearUser() {
+    // clear memory and localStorage
+    storage.remove(USER_STORAGE_KEY);
+    AppConfig.loginStatus = {
+      hasLogin: false,
+      loginTime: 0,
+      data: null
+    }
+  }
+
+
   static loginStatus = {
     hasLogin: false,
     loginTime: 0,
@@ -50,6 +61,7 @@ export class AppConfig {
   static validatorUrls = {
     email: ''
   };
+
 }
 
 

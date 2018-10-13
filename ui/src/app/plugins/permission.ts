@@ -7,9 +7,8 @@ import {
   Router,
   ActivatedRouteSnapshot
 } from '@angular/router';
-import {combineLatest, from, observable, Observable} from "rxjs";
+import {combineLatest, Observable} from "rxjs";
 import {map, take} from "rxjs/operators";
-import {reject} from "q";
 
 
 @Injectable({

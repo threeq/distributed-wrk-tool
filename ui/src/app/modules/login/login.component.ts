@@ -21,12 +21,12 @@ export class LoginComponent implements OnInit {
     Validators.required,
     Validators.minLength(6)]);
 
-  private email: string;
-  private pwd: string;
+  email: string;
+  pwd: string;
 
   constructor(private systemApi: SystemApiService,
               private snackBar: MatSnackBar,
-              private route: Router) {
+              private router: Router) {
 
   }
 
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
 
       if (res.ok()) {
         AppConfig.setUser(res.data);
-        this.route.navigateByUrl("/modules/dashboard");
+        this.router.navigateByUrl("/modules/projects");
       } else {
         this.snackBar.open(res.msg, "OK", {
           duration: 2000,
@@ -63,7 +63,7 @@ export class LoginComponent implements OnInit {
   }
 
   doRegister() {
-    this.route.navigateByUrl("/login/register")
+    this.router.navigateByUrl("/login/register")
   }
 
 }

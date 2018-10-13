@@ -1,7 +1,8 @@
 .func-view {
-  .side-nav,.content-container {
-    padding-top: 74px;
+  .content-container {
+    padding: 74px 10px 10px 10px;
   }
+
   .side-nav {
     position: fixed;
     height: 100%;
@@ -12,8 +13,4 @@
     }
   }
 
-  .content-container {
-    padding-left: 215px;
-    padding-right: 10px;
-  }
 }

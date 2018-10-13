@@ -22,7 +22,7 @@ const routes: Routes = [
     data: {
       permission: {
         rule: {only: [ROLES.logout]},
-        redirectTo: ['/modules/dashboard']
+        redirectTo: ['/modules/projects']
       }
     },
     loadChildren: './modules/login/login.module#LoginModule'

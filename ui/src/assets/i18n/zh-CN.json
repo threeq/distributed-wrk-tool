@@ -26,5 +26,11 @@
 
   "error-required": "必须输入一个值",
   "error-email": "邮箱格式错误",
-  "error-length": "数据长度不对"
+  "error-length": "数据长度不对",
+
+
+  "Project": "项目",
+  "Task": "任务",
+  "Resource": "资源",
+  "Quit": "退出"
 }
