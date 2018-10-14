@@ -2,16 +2,9 @@ import datetime
 
 from bson import ObjectId
 
+from api.common import assert_ok_code
 from api.restful.app import app
 from api.restful.common.api_models import Code
-
-
-def assert_ok_code(code):
-    assert 400 > code >= 200
-
-
-def assert_fail_code(code):
-    assert 200 > code or code >= 400
 
 
 def test_api_user_add():

@@ -18,7 +18,8 @@ export class ProjectAddDialogComponent {
     @Inject(MAT_DIALOG_DATA) public data: DialogData) {
   }
 
-  onNoClick(): void {
+  onSaveClick(): void {
+
     this.dialogRef.close();
   }
 }

@@ -1,6 +1,6 @@
 from abc import ABC
 
-from api.base import Entity, Storage, ApplicationService
+from api.domain import Entity, Storage, ApplicationService
 from api.common.code_def import Code
 from api.common.exception import DomainException
 

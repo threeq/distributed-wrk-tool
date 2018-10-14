@@ -2,8 +2,7 @@ from flask import request
 from flask_restful import Resource, fields, marshal_with
 
 from api.domain.user import UserService
-from api.restful import ResponseEntity
-from api.restful.common.api_models import marshal_wrapper
+from api.restful.common.api_models import marshal_wrapper, ResponseEntity
 from api.storage.user_storage import UserStorageMgo
 
 base_fields = {

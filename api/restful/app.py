@@ -1,10 +1,12 @@
+from flask import Flask
 from flask.json import jsonify
 
 from api.common.exception import DomainException
-from api.restful import app
 from api.restful.api_v1 import api_v1_blueprint
 from api.restful.common import app_utils
 from api.restful.common.api_models import ResponseEntity
+
+app = Flask(__name__)
 
 
 @app.errorhandler(DomainException)
