@@ -1,5 +1,4 @@
-
-export class ResponseEntity<T=any> {
+export class ResponseEntity<T = any> {
   code: number;
   msg: string;
   timestamp: number;
@@ -11,5 +10,13 @@ export class ResponseEntity<T=any> {
 }
 
 export class BaseApi {
-  constructor(){}
+  constructor() {
+  }
+}
+
+export class Entity {
+  _id: string;
+  created: number;
+  updated: number;
+  active: number;
 }

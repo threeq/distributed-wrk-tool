@@ -10,9 +10,10 @@ import {
   MatCardModule,
   MatDialogModule,
   MatGridListModule,
-  MatInputModule
+  MatInputModule, MatSnackBarModule
 } from "@angular/material";
 import {TranslateModule} from "@ngx-translate/core";
+import {ApiModule} from "../@common/api/api.module";
 
 @NgModule({
   imports: [
@@ -27,6 +28,9 @@ import {TranslateModule} from "@ngx-translate/core";
     MatGridListModule,
     MatCardModule,
     MatButtonModule,
+    MatSnackBarModule,
+
+    ApiModule,
 
     RouterModule.forChild([
       {

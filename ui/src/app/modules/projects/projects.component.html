@@ -5,13 +5,11 @@
     <mat-grid-tile *ngFor="let proj of projects">
       <mat-card class="project-card">
         <mat-card-header>
-          <mat-card-title>{{proj.title}}</mat-card-title>
+          <mat-card-title>{{proj.name}}</mat-card-title>
         </mat-card-header>
-        <mat-card-content>
+        <mat-card-content style="min-height: 128px">
           <p>
-            The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan.
-            A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally
-            bred for hunting.
+            {{proj.name}}
           </p>
         </mat-card-content>
         <mat-card-actions>
