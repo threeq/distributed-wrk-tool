@@ -1,7 +1,8 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar} from "@angular/material";
 import {ProjectAddDialogComponent} from "./project-add-dialog/project-add-dialog.component";
-import {ProjectsApiService} from "../@common/api/projects-api.service";
+import {Project, ProjectsApiService} from "../@common/api/projects-api.service";
+import {ConfirmComponent, DialogData} from "../../plugins/confirm/confirm.component";
 
 @Component({
   selector: 'app-projects',
@@ -39,8 +40,39 @@ export class ProjectsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if(result) {
+      if (result) {
         this.refreshData();
+      }
+    });
+  }
+
+  onDelete(project: Project) {
+    if (!project) {
+      this.snackBar.open('Argument Error', "OK", {
+        duration: 2000
+      });
+      return
+    }
+
+    const dialogRef = this.dialog.open(ConfirmComponent, {
+      width: '450px',
+      data: {
+        title: "Delete Project",
+        content: "Are you sure you want to delete [" + project.name + "] ?",
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.projectsApi.delete(project._id).subscribe(ok => {
+          this.snackBar.open(ok.msg, "OK", {
+            duration: 2000,
+          });
+          this.refreshData();
+        }, err => {
+          this.snackBar.open(err.error.msg, "OK", {
+            duration: 2000,
+          });
+        });
       }
     });
   }

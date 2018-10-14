@@ -13,8 +13,8 @@
           </p>
         </mat-card-content>
         <mat-card-actions>
-          <button mat-button>{{'LIKE' | translate}}</button>
-          <button mat-button>SHARE</button>
+          <a mat-button (click)="onDelete(proj)">{{'Delete' | translate}}</a>
+          <a mat-button routerLink="/modules/projects/{{proj._id}}">{{"Detail" | translate}}</a>
         </mat-card-actions>
       </mat-card>
     </mat-grid-tile>

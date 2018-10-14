@@ -8,7 +8,7 @@ import {BaseApi, Entity, ResponseEntity} from "./base-api";
 export class Project extends Entity {
   name: string;
 
-  constructor(name=null) {
+  constructor(name = null) {
     super();
     this.name = name;
   }
@@ -35,11 +35,11 @@ export class ProjectsApiService extends BaseApi {
     return this.http.post(this.projectsUrl, project).pipe(map(obj => <ResponseEntity> obj))
   }
 
-  delete(_id: string): Observable<Object> {
-    return this.http.delete(this.projectsUrl + '/' + _id)
+  delete(_id: string): Observable<ResponseEntity> {
+    return this.http.delete(this.projectsUrl + '/' + _id).pipe(map(obj => <ResponseEntity> obj))
   }
 
-  update(project: Project): Observable<Object> {
-    return this.http.put(this.projectsUrl + '/' + project._id, project)
+  update(project: Project): Observable<ResponseEntity> {
+    return this.http.put(this.projectsUrl + '/' + project._id, project).pipe(map(obj => <ResponseEntity> obj))
   }
 }

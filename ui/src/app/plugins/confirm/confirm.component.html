@@ -1,0 +1,10 @@
+<h2 mat-dialog-title>{{ data.title | translate }}</h2>
+
+<mat-dialog-content class="mat-typography">
+  <p>{{data.content}}</p>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>{{ data.cancel | translate}}</button>
+  <button mat-button [mat-dialog-close]="true">{{ data.ok| translate}}</button>
+</mat-dialog-actions>

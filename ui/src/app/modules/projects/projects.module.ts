@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {RouterModule} from "@angular/router";
 import {ProjectsComponent} from "./projects.component";
 import {ProjectAddDialogComponent} from "./project-add-dialog/project-add-dialog.component";
@@ -14,6 +14,10 @@ import {
 } from "@angular/material";
 import {TranslateModule} from "@ngx-translate/core";
 import {ApiModule} from "../@common/api/api.module";
+import {ProjectSceneComponent} from './project-scene/project-scene.component';
+import {ProjectTaskComponent} from './project-task/project-task.component';
+import {ProjectMonitorComponent} from './project-monitor/project-monitor.component';
+import {ConfirmModule} from "../../plugins/confirm/confirm.module";
 
 @NgModule({
   imports: [
@@ -31,21 +35,36 @@ import {ApiModule} from "../@common/api/api.module";
     MatSnackBarModule,
 
     ApiModule,
+    ConfirmModule,
 
     RouterModule.forChild([
       {
         path: '',
         pathMatch: 'full',
         component: ProjectsComponent,
+      }, {
+        path: ':id',
+        pathMatch: 'full',
+        component: ProjectSceneComponent
+      }, {
+        path: ':id/task',
+        component: ProjectTaskComponent
+      }, {
+        path: ':id/monitor',
+        component: ProjectMonitorComponent
       }]),
   ],
   exports: [RouterModule],
   declarations: [
     ProjectsComponent,
-    ProjectAddDialogComponent
+    ProjectAddDialogComponent,
+    ProjectSceneComponent,
+    ProjectTaskComponent,
+    ProjectMonitorComponent
   ],
   entryComponents: [
     ProjectAddDialogComponent
   ]
 })
-export class ProjectsModule { }
+export class ProjectsModule {
+}
