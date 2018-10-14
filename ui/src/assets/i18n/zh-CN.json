@@ -12,8 +12,11 @@
   "Valid Code": "验证码",
   "Send Code": " 发送验证码",
 
+  "Save": "保存",
   "Submit": "提交",
   "Cancel": "取消",
+  "Quit": "退出",
+
 
   "Login": "登录",
   "Register": "注册",
@@ -32,5 +35,6 @@
   "Project": "项目",
   "Task": "任务",
   "Resource": "资源",
-  "Quit": "退出"
+  "Add Project":"添加工程",
+  "Project Name": "工程名称"
 }

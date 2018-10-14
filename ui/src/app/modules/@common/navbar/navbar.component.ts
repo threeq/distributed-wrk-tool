@@ -13,6 +13,7 @@ export class NavbarComponent implements OnInit {
   appName: string;
   user: User;
   translateService: TranslateService;
+  msgCount = 8;
 
   constructor(
     translateService: TranslateService,

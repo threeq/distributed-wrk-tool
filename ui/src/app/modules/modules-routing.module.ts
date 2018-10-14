@@ -3,8 +3,6 @@ import {NgModule} from '@angular/core';
 import {DashboardComponent} from "./dashboard/dashboard.component";
 import {TableComponent} from "./table/table.component";
 import {FuncViewComponent} from "../@views/func/func-view.component";
-import {ProjectsComponent} from "./projects/projects.component";
-
 
 const routes: Routes = [
   {
@@ -16,7 +14,7 @@ const routes: Routes = [
       pathMatch: 'full',
     }, {
       path: 'projects',
-      component: ProjectsComponent,
+      loadChildren: './projects/projects.module#ProjectsModule'
     }, {
       path: 'dashboard',
       component: DashboardComponent,

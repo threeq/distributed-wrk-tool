@@ -6,7 +6,8 @@ import {ActivatedRoute, NavigationStart, Router} from "@angular/router";
 
 @Component({
   selector: 'app-root',
-  template: '<router-outlet></router-outlet>'
+  template: '<router-outlet></router-outlet>',
+  styleUrls: ['./modules/@common/styles/common.scss']
 })
 export class AppComponent {
   private appName: string = AppConfig.appName;

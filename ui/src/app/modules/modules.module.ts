@@ -9,18 +9,30 @@ import {
   MatGridListModule,
   MatIconModule,
   MatListModule,
-  MatMenuModule, MatSidenavModule, MatToolbarModule, MatTableModule, MatPaginatorModule, MatSortModule, MatTreeModule
+  MatMenuModule,
+  MatSidenavModule,
+  MatToolbarModule,
+  MatTableModule,
+  MatPaginatorModule,
+  MatSortModule,
+  MatTreeModule,
+  MatBadgeModule, MatDialogModule, MatInputModule
 } from "@angular/material";
 import { TableComponent } from './table/table.component';
 import {FuncViewModule} from "../@views/func/func-view.module";
 import {LoginModule} from "./login/login.module";
 import { ProjectsComponent } from './projects/projects.component';
+import { ProjectAddDialogComponent } from './projects/project-add-dialog/project-add-dialog.component';
+import {TranslateModule} from "@ngx-translate/core";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {ProjectsModule} from "./projects/projects.module";
 
 
 @NgModule({
   imports: [
     CommonModule,
     ModulesRoutingModule,
+    TranslateModule,
 
     MatGridListModule,
     MatCardModule,
@@ -34,14 +46,16 @@ import { ProjectsComponent } from './projects/projects.component';
     MatPaginatorModule,
     MatSortModule,
     MatTreeModule,
+    MatBadgeModule,
+    MatDialogModule,
 
     FuncViewModule,
-    LoginModule
   ],
   declarations: [
     DashboardComponent,
     TableComponent,
-    ProjectsComponent
+  ],
+  entryComponents: [
   ]
 })
 export class ModulesModule {
