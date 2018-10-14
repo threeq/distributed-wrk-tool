@@ -41,14 +41,10 @@ export class Permission {
 
     names.forEach((res) => {
       if (this._store[res]) {
-        mergeObsrArr.push(Observable.create(observer => {
+        mergeObsrArr.push(new Observable<boolean>(observer => {
           observer.next(this._store[res].call());
-          return {
-            unsubscribe() {
-            }
-          };
+          observer.complete();
         }));
-
       } else {
         console.warn(`Permission: No defined validation for ${res}`);
       }
@@ -73,7 +69,7 @@ export class PermGuard implements CanActivate {
   constructor(private _permission: Permission, private _router: Router) {
   }
 
-  canActivate(route: ActivatedRouteSnapshot) {
+  canActivate(route: ActivatedRouteSnapshot): boolean | Observable<boolean> {
 
     let act = this._permission
       .authorize(route.data['permission'].rule)
