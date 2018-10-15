@@ -5,10 +5,6 @@ from api.common.code_def import Code
 from api.common.exception import DomainException
 
 
-class ProjectStorage(Storage, ABC):
-    pass
-
-
 class Project(Entity):
     def __init__(self, **kwargs):
         Entity.__init__(self, **kwargs)
@@ -26,6 +22,10 @@ class Project(Entity):
         return super().save(storage)
 
 
+class ProjectStorage(Storage, ABC):
+    pass
+
+
 class ProjectService(ApplicationService):
-    def __init__(self, storage):
+    def __init__(self, storage: ProjectStorage):
         ApplicationService.__init__(self, storage)

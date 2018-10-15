@@ -1,5 +1,7 @@
 from api.domain.project import ProjectStorage, Project
-from api.storage.mongo import MgoCrud, project_collection
+from api.storage.mongo import MgoCrud, MgoDefaultDB
+
+project_collection = MgoDefaultDB['projects']
 
 
 class ProjectStorageMgo(MgoCrud, ProjectStorage):

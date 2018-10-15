@@ -3,11 +3,8 @@ import abc
 import pymongo
 from bson import ObjectId
 
-myclient = pymongo.MongoClient("mongodb://localhost:27017/")
-mydb = myclient["test-cloud"]
-
-user_collection = mydb['users']
-project_collection = mydb['projects']
+MgoClient = pymongo.MongoClient("mongodb://localhost:27017/")
+MgoDefaultDB = MgoClient["test-cloud"]
 
 
 class MgoCrud:
@@ -56,5 +53,3 @@ class MgoCrud:
             # TODO 需要判断 result 成功与否
 
             return _id
-
-
