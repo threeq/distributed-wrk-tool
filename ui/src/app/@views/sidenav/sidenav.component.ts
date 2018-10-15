@@ -38,7 +38,7 @@ export class SidenavComponent implements OnInit {
     flatNode.level = level;
     flatNode.expandable = !!node.children;
     return flatNode;
-  }
+  };
 
   private _getLevel = (node: FileFlatNode) => { return node.level; };
 
@@ -46,7 +46,7 @@ export class SidenavComponent implements OnInit {
 
   private _getChildren = (node: FileNode): Observable<FileNode[]> => {
     return observableOf(node.children);
-  }
+  };
 
   hasChild = (_: number, _nodeData: FileFlatNode) => { return _nodeData.expandable; };
 

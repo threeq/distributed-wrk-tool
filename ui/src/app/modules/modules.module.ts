@@ -16,16 +16,11 @@ import {
   MatPaginatorModule,
   MatSortModule,
   MatTreeModule,
-  MatBadgeModule, MatDialogModule, MatInputModule
+  MatBadgeModule, MatDialogModule
 } from "@angular/material";
 import { TableComponent } from './table/table.component';
-import {FuncViewModule} from "../@views/func/func-view.module";
-import {LoginModule} from "./login/login.module";
-import { ProjectsComponent } from './projects/projects.component';
-import { ProjectAddDialogComponent } from './projects/project-add-dialog/project-add-dialog.component';
+import {FuncViewModule} from "../@views/func-view.module";
 import {TranslateModule} from "@ngx-translate/core";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {ProjectsModule} from "./projects/projects.module";
 
 
 @NgModule({

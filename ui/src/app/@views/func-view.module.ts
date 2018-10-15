@@ -6,9 +6,9 @@ import {
   MatIconModule, MatListModule,
   MatMenuModule, MatSidenavModule, MatToolbarModule, MatTreeModule
 } from "@angular/material";
-import {FuncViewComponent} from "./func-view.component";
-import {NavbarComponent} from "../../modules/@common/navbar/navbar.component";
-import {SidenavComponent} from "../../modules/@common/sidenav/sidenav.component";
+import {FuncViewComponent} from "./func/func-view.component";
+import {NavbarComponent} from "./navbar/navbar.component";
+import {SidenavComponent} from "./sidenav/sidenav.component";
 import {RouterModule} from "@angular/router";
 import {TranslateModule} from "@ngx-translate/core";
 
@@ -30,7 +30,8 @@ import {TranslateModule} from "@ngx-translate/core";
     FuncViewComponent,
     NavbarComponent,
     SidenavComponent
-  ]
+  ],
+  exports:[SidenavComponent]
 })
 export class FuncViewModule {
 }

@@ -20,6 +20,7 @@ class MgoCrud:
         return result
 
     def find_by_filter(self, *args, **kwargs):
+        # TODO 复制查询支持
         docs = self.collection.find(*args)
         return [self.doc2entity(doc) for doc in docs]
 

@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
-import {AppConfig} from "../../../app.config";
-import {User} from "../api/system-api.service";
 import {Router} from "@angular/router";
+import {AppConfig} from "../../app.config";
+import {User} from "../../modules/@common/api/system-api.service";
 
 @Component({
   selector: 'app-navbar',

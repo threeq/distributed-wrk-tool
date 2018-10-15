@@ -18,6 +18,7 @@ import {ProjectSceneComponent} from './project-scene/project-scene.component';
 import {ProjectTaskComponent} from './project-task/project-task.component';
 import {ProjectMonitorComponent} from './project-monitor/project-monitor.component';
 import {ConfirmModule} from "../../plugins/confirm/confirm.module";
+import {FuncViewModule} from "../../@views/func-view.module";
 
 @NgModule({
   imports: [
@@ -36,6 +37,7 @@ import {ConfirmModule} from "../../plugins/confirm/confirm.module";
 
     ApiModule,
     ConfirmModule,
+    FuncViewModule,
 
     RouterModule.forChild([
       {
@@ -60,7 +62,7 @@ import {ConfirmModule} from "../../plugins/confirm/confirm.module";
     ProjectAddDialogComponent,
     ProjectSceneComponent,
     ProjectTaskComponent,
-    ProjectMonitorComponent
+    ProjectMonitorComponent,
   ],
   entryComponents: [
     ProjectAddDialogComponent
