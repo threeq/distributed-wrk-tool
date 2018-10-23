@@ -1,0 +1,78 @@
+<app-sidenav class="side-nav" [project]="project"></app-sidenav>
+
+<div class="has-sidenav-content">
+  <div class="scene-add">
+    <mat-grid-list cols="2" rowHeight="60px">
+      <mat-grid-tile>
+        <mat-form-field class="p90-width">
+          <input matInput placeholder="{{'Scene Name' | translate}}"
+                 [(ngModel)]="sceneName"
+                 cdkFocusInitial>
+          <mat-error *ngIf="sceneNameCtrl.invalid">{{'error-required' | translate}}</mat-error>
+        </mat-form-field>
+      </mat-grid-tile>
+
+      <mat-grid-tile [rowspan]="6" class="flex-up-down script-editor">
+        <input hidden type="file" #imgFileInput (change)="previewImage($event)"/>
+        <button type="button" class="upload-button" mat-button (click)="imgFileInput.click()">
+          <mat-icon>cloud_upload</mat-icon> Add Upload Lua Script File
+        </button>
+
+        <textarea matInput placeholder="{{'Lua Script' | translate}}"
+                  [(ngModel)]="script"></textarea>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <mat-form-field class="p90-width">
+          <input matInput placeholder="{{'Url' | translate}}"
+                 [(ngModel)]="url">
+        </mat-form-field>
+
+      </mat-grid-tile>
+
+      <mat-grid-tile>
+        <table class="p90-width" cellspacing="0">
+          <tr>
+            <td>
+              <mat-form-field class="full-width">
+                <input matInput placeholder="{{'Thread Number' | translate}}"
+                       [(ngModel)]="threads">
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="full-width">
+                <input matInput placeholder="{{'Connections Number' | translate}}"
+                       [(ngModel)]="connections">
+              </mat-form-field>
+            </td>
+          </tr>
+        </table>
+      </mat-grid-tile>
+      <mat-grid-tile>
+        <table class="p90-width" cellspacing="0">
+          <tr>
+            <td>
+              <mat-form-field class="full-width">
+                <input matInput placeholder="{{'Durations (unit: s)' | translate}}"
+                       [(ngModel)]="durations">
+              </mat-form-field>
+            </td>
+            <td>
+              <mat-form-field class="full-width">
+                <input matInput placeholder="{{'Timeout (unit: s)' | translate}}"
+                       [(ngModel)]="timeout">
+              </mat-form-field>
+            </td>
+          </tr>
+        </table>
+      </mat-grid-tile>
+
+    </mat-grid-list>
+    <h3>通过条件</h3>
+
+  </div>
+
+</div>
+
+
+
+

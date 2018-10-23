@@ -1,3 +1,27 @@
-.full-width {
-  width: 100%;
+::ng-deep {
+  .full-width {
+    width: 100%;
+  }
+
+  .p90-width {
+    width: 90%;
+  }
+
+  .p50-width {
+    width: 50%;
+  }
+
+  .p45-width {
+    width: 45%;
+  }
+
+  .has-sidenav-content {
+    margin-left: 170px;
+  }
+
+  .flex-up-down {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
 }

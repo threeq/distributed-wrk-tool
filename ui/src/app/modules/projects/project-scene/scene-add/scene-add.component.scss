@@ -1,0 +1,32 @@
+
+.scene-add {
+  margin-top: 20px;
+}
+
+.flex-up-down ::ng-deep .mat-figure {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.script-editor {
+  .upload-button {
+    position: absolute;
+    top: 0;
+  }
+  textarea {
+    position: absolute;
+    width: 98%;
+
+    top: 40px;
+    right: 2px;
+    left: 2px;
+    bottom: 2px;
+
+    resize: none;
+    border: 1px solid;
+
+    padding: 6px;
+
+  }
+
+}

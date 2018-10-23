@@ -9,7 +9,7 @@ import {
   MatButtonModule,
   MatCardModule,
   MatDialogModule,
-  MatGridListModule,
+  MatGridListModule, MatIconModule,
   MatInputModule, MatSnackBarModule
 } from "@angular/material";
 import {TranslateModule} from "@ngx-translate/core";
@@ -19,6 +19,8 @@ import {ProjectTaskComponent} from './project-task/project-task.component';
 import {ProjectMonitorComponent} from './project-monitor/project-monitor.component';
 import {ConfirmModule} from "../../plugins/confirm/confirm.module";
 import {FuncViewModule} from "../../@views/func-view.module";
+import { SceneDetailComponent } from './project-scene/scene-detail/scene-detail.component';
+import { SceneAddComponent } from './project-scene/scene-add/scene-add.component';
 
 @NgModule({
   imports: [
@@ -34,6 +36,7 @@ import {FuncViewModule} from "../../@views/func-view.module";
     MatCardModule,
     MatButtonModule,
     MatSnackBarModule,
+    MatIconModule,
 
     ApiModule,
     ConfirmModule,
@@ -54,6 +57,9 @@ import {FuncViewModule} from "../../@views/func-view.module";
       }, {
         path: ':id/monitor',
         component: ProjectMonitorComponent
+      }, {
+        path: ':id/scene/add',
+        component: SceneAddComponent
       }]),
   ],
   exports: [RouterModule],
@@ -63,9 +69,11 @@ import {FuncViewModule} from "../../@views/func-view.module";
     ProjectSceneComponent,
     ProjectTaskComponent,
     ProjectMonitorComponent,
+    SceneDetailComponent,
+    SceneAddComponent,
   ],
   entryComponents: [
-    ProjectAddDialogComponent
+    ProjectAddDialogComponent,
   ]
 })
 export class ProjectsModule {

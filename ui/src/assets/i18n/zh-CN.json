@@ -20,7 +20,6 @@
   "Delete": "删除",
   "Detail": "详情",
 
-
   "Login": "登录",
   "Register": "注册",
   "login-help":"需要帮助 ?",
@@ -29,15 +28,15 @@
   "login-pwd-placeholder": "输入密码",
   "go-login": "返回登录",
 
-
   "error-required": "必须输入一个值",
   "error-email": "邮箱格式错误",
   "error-length": "数据长度不对",
 
-
   "Project": "项目",
   "Task": "任务",
   "Resource": "资源",
+  "Scene": "场景",
+  "Monitor": "监控",
   "Add Project":"添加工程",
   "Project Name": "工程名称"
 }

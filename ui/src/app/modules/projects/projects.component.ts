@@ -1,8 +1,9 @@
-import {Component, Inject, OnInit} from '@angular/core';
-import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar} from "@angular/material";
+import {Component, OnInit} from '@angular/core';
+import {MatDialog, MatSnackBar} from "@angular/material";
 import {ProjectAddDialogComponent} from "./project-add-dialog/project-add-dialog.component";
 import {Project, ProjectsApiService} from "../@common/api/projects-api.service";
-import {ConfirmComponent, DialogData} from "../../plugins/confirm/confirm.component";
+import {ConfirmComponent} from "../../plugins/confirm/confirm.component";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-projects',
@@ -16,7 +17,8 @@ export class ProjectsComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     private projectsApi: ProjectsApiService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private router: Router
   ) {
     this.refreshData()
   }
@@ -44,6 +46,11 @@ export class ProjectsComponent implements OnInit {
         this.refreshData();
       }
     });
+  }
+
+  onGoProject(project: Project) {
+    CurrentProject.project = project;
+    this.router.navigateByUrl("/modules/projects/" + project._id)
   }
 
   onDelete(project: Project) {
@@ -76,4 +83,8 @@ export class ProjectsComponent implements OnInit {
       }
     });
   }
+}
+
+export class CurrentProject {
+  static project: Project = null
 }

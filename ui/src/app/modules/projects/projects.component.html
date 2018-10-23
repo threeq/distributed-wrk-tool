@@ -1,5 +1,4 @@
 <div class="grid-container project-list">
-  <!--<h1 class="mat-h1">Dashboard</h1>-->
   <a mat-mini-fab class="project-add" (click)="addProject()">+</a>
   <mat-grid-list class="project-grid" cols="5" rowHeight="1:1">
     <mat-grid-tile *ngFor="let proj of projects">
@@ -7,14 +6,14 @@
         <mat-card-header>
           <mat-card-title>{{proj.name}}</mat-card-title>
         </mat-card-header>
-        <mat-card-content style="min-height: 128px">
+        <mat-card-content>
           <p>
             {{proj.name}}
           </p>
         </mat-card-content>
         <mat-card-actions>
           <a mat-button (click)="onDelete(proj)">{{'Delete' | translate}}</a>
-          <a mat-button routerLink="/modules/projects/{{proj._id}}">{{"Detail" | translate}}</a>
+          <a mat-button (click)="onGoProject(proj)">{{"Detail" | translate}}</a>
         </mat-card-actions>
       </mat-card>
     </mat-grid-tile>

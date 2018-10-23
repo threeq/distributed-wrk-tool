@@ -1,1 +1,35 @@
-<app-sidenav class="side-nav"></app-sidenav>
+<app-sidenav class="side-nav" [project]="project"></app-sidenav>
+<div class="flat-fab-buttons">
+  <a mat-mini-fab (click)="addScene()">+</a>
+  <a mat-mini-fab class='color-gray' (click)="delScene()">-</a>
+</div>
+
+<div class="has-sidenav-content">
+  <mat-grid-list class="project-scene-grid" cols="5" rowHeight="1:1">
+    <mat-grid-tile *ngFor="let scene of scenes">
+      <mat-card class="project-scene-card">
+        <mat-card-header>
+          <mat-card-title>{{scene.name}}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content style="min-width: 160px;">
+          <p>
+            {{scene.name}}
+          </p>
+        </mat-card-content>
+        <mat-card-actions>
+          <a mat-icon-button>
+            <!--<mat-icon>autorenew</mat-icon>-->
+            <mat-icon>play_arrow</mat-icon>
+          </a>
+          <a mat-icon-button>
+            <mat-icon>list</mat-icon>
+          </a>
+          <a mat-icon-button>
+            <mat-icon>edit</mat-icon>
+          </a>
+        </mat-card-actions>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>
+

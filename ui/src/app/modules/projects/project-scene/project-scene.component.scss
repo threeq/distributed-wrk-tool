@@ -1,0 +1,25 @@
+.flat-fab-buttons {
+  position: fixed;
+  z-index: 999;
+  right: 17px;
+  top: 75px;
+  > a {
+    margin: 5px;
+  }
+}
+
+.color-gray {
+  background-color: gray;
+}
+
+.project-scene-grid {
+  margin-top: 50px;
+}
+
+.project-scene-card {
+  margin: 20px;
+}
+
+.mat-grid-tile .mat-figure {
+  padding: 2px;
+}

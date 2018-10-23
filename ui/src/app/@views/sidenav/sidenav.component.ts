@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {FileDatabase, FileFlatNode, FileNode} from "./sidenav.data";
 import {FlatTreeControl} from "@angular/cdk/tree";
 import {MatTreeFlatDataSource, MatTreeFlattener} from "@angular/material";
 import {Observable, of as observableOf} from 'rxjs';
+import {Project} from "../../modules/@common/api/projects-api.service";
 
 
 
@@ -13,6 +14,8 @@ import {Observable, of as observableOf} from 'rxjs';
   providers: [FileDatabase]
 })
 export class SidenavComponent implements OnInit {
+
+  @Input() project: Project;
 
   treeControl: FlatTreeControl<FileFlatNode>;
 
