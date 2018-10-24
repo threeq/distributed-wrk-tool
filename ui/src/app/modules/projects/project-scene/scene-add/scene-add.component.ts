@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
 import {CurrentProject} from "../../projects.component";
 import {Router} from "@angular/router";
@@ -22,6 +22,7 @@ export class SceneAddComponent implements OnInit {
   timeout: number;
   script: string;
   private project: Project;
+  config;
 
   constructor(
     private router: Router
@@ -32,6 +33,20 @@ export class SceneAddComponent implements OnInit {
     }
 
     this.project = CurrentProject.project;
+    this.config = {
+      lineNumbers: true,
+      theme: "3024-day",
+      mode: 'text/x-lua',
+      extraKeys: {
+        "F11": function(cm) {
+          console.log("F11", cm);
+          cm.setOption("fullScreen", !cm.getOption("fullScreen"));
+        },
+        "Esc": function(cm) {
+          if (cm.getOption("fullScreen")) cm.setOption("fullScreen", false);
+        }
+      }
+    };
   }
 
   ngOnInit() {

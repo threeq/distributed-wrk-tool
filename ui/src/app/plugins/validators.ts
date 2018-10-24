@@ -1,5 +1,4 @@
 import {AbstractControl, ValidationErrors, Validator} from "@angular/forms";
-import {Observable} from "rxjs";
 
 export class EqualValidator {
 

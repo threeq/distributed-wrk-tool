@@ -3,7 +3,6 @@ import {CurrentProject} from "../projects.component";
 import {Project} from "../../@common/api/projects-api.service";
 import {Router} from "@angular/router";
 import {MatDialog} from "@angular/material";
-import {SceneAddDialogComponent} from "./scene-add-dialog/scene-add-dialog.component";
 
 @Component({
   selector: 'app-project-scene',

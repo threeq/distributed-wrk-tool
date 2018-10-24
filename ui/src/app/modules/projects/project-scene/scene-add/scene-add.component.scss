@@ -13,7 +13,7 @@
     position: absolute;
     top: 0;
   }
-  textarea {
+  .codemirror {
     position: absolute;
     width: 98%;
 
@@ -21,12 +21,6 @@
     right: 2px;
     left: 2px;
     bottom: 2px;
-
-    resize: none;
-    border: 1px solid;
-
-    padding: 6px;
-
   }
 
 }

@@ -19,8 +19,9 @@ import {ProjectTaskComponent} from './project-task/project-task.component';
 import {ProjectMonitorComponent} from './project-monitor/project-monitor.component';
 import {ConfirmModule} from "../../plugins/confirm/confirm.module";
 import {FuncViewModule} from "../../@views/func-view.module";
-import { SceneDetailComponent } from './project-scene/scene-detail/scene-detail.component';
-import { SceneAddComponent } from './project-scene/scene-add/scene-add.component';
+import {SceneDetailComponent} from './project-scene/scene-detail/scene-detail.component';
+import {SceneAddComponent} from './project-scene/scene-add/scene-add.component';
+import {CodemirrorModule} from "../../plugins/codemirror/codemirror.module";
 
 @NgModule({
   imports: [
@@ -41,6 +42,7 @@ import { SceneAddComponent } from './project-scene/scene-add/scene-add.component
     ApiModule,
     ConfirmModule,
     FuncViewModule,
+    CodemirrorModule,
 
     RouterModule.forChild([
       {

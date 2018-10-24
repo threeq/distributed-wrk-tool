@@ -15,11 +15,15 @@
       <mat-grid-tile [rowspan]="6" class="flex-up-down script-editor">
         <input hidden type="file" #imgFileInput (change)="previewImage($event)"/>
         <button type="button" class="upload-button" mat-button (click)="imgFileInput.click()">
-          <mat-icon>cloud_upload</mat-icon> Add Upload Lua Script File
+          <mat-icon>cloud_upload</mat-icon>
+          Add Upload Lua Script File
         </button>
 
-        <textarea matInput placeholder="{{'Lua Script' | translate}}"
-                  [(ngModel)]="script"></textarea>
+        <div class="codemirror">
+          <codemirror [(ngModel)]="script" [config]="config"
+                      placeholder="{{'Input wrk Lua script' | translate}}"></codemirror>
+        </div>
+
       </mat-grid-tile>
       <mat-grid-tile>
         <mat-form-field class="p90-width">
