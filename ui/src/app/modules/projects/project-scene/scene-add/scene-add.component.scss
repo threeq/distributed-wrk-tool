@@ -24,3 +24,51 @@
   }
 
 }
+
+.url-btn-bar {
+  ::ng-deep .mat-figure {
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
+  button {
+    margin: 0 10px;
+  }
+}
+
+.model-pie {
+  width: 100px;
+}
+
+.model-card {
+  display: flex;
+  justify-content: space-between;
+  table {
+    width: 100%;
+  }
+}
+
+.panel-header-buttons {
+  justify-content: flex-end;
+}
+
+mat-panel-title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.url-threshold-table {
+  .mat-cell:first-child,
+  .mat-header-cell:first-child {
+    width: 350px;
+    max-width: 350px;
+    word-break:break-all;
+    word-wrap:break-word;
+  }
+  input,
+  .mat-cell,
+  .mat-header-cell {
+    width: 60px;
+  }
+
+}
+

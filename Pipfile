@@ -9,6 +9,8 @@ pytest = "*"
 autopep8 = "*"
 rope = "*"
 fabric = {extras = ["testing"]}
+grpcio-tools = "*"
+googleapis-common-protos = "*"
 
 [packages]
 fabric = "*"
@@ -18,6 +20,7 @@ pymongo = "*"
 flask-restful = "*"
 requests = "*"
 flask-cors = "*"
+grpcio = "*"
 
 [requires]
 python_version = "3.7"

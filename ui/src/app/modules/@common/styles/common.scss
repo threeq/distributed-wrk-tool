@@ -24,4 +24,11 @@
     align-items: flex-start;
   }
 
+  .button-bar {
+    display: flex;
+    justify-content: center;
+    button,a {
+      margin: 20px;
+    }
+  }
 }

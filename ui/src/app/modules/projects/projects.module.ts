@@ -8,9 +8,9 @@ import {
   MatBadgeModule,
   MatButtonModule,
   MatCardModule,
-  MatDialogModule,
+  MatDialogModule, MatExpansionModule,
   MatGridListModule, MatIconModule,
-  MatInputModule, MatSnackBarModule
+  MatInputModule, MatSelectModule, MatSnackBarModule, MatTableModule
 } from "@angular/material";
 import {TranslateModule} from "@ngx-translate/core";
 import {ApiModule} from "../@common/api/api.module";
@@ -22,6 +22,7 @@ import {FuncViewModule} from "../../@views/func-view.module";
 import {SceneDetailComponent} from './project-scene/scene-detail/scene-detail.component';
 import {SceneAddComponent} from './project-scene/scene-add/scene-add.component';
 import {CodemirrorModule} from "../../plugins/codemirror/codemirror.module";
+import {EchartsNg2Module} from "echarts-ng2";
 
 @NgModule({
   imports: [
@@ -32,12 +33,16 @@ import {CodemirrorModule} from "../../plugins/codemirror/codemirror.module";
 
     MatDialogModule,
     MatInputModule,
+    MatSelectModule,
     MatBadgeModule,
+    MatTableModule,
     MatGridListModule,
     MatCardModule,
     MatButtonModule,
     MatSnackBarModule,
     MatIconModule,
+    MatExpansionModule,
+    EchartsNg2Module,
 
     ApiModule,
     ConfirmModule,

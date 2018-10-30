@@ -2,39 +2,21 @@
 
 <div class="has-sidenav-content">
   <div class="scene-add">
-    <mat-grid-list cols="2" rowHeight="60px">
+
+    <mat-grid-list cols="4" rowHeight="65px">
       <mat-grid-tile>
-        <mat-form-field class="p90-width">
+        <mat-form-field class="full-width">
           <input matInput placeholder="{{'Scene Name' | translate}}"
                  [(ngModel)]="sceneName"
                  cdkFocusInitial>
           <mat-error *ngIf="sceneNameCtrl.invalid">{{'error-required' | translate}}</mat-error>
         </mat-form-field>
       </mat-grid-tile>
-
-      <mat-grid-tile [rowspan]="6" class="flex-up-down script-editor">
-        <input hidden type="file" #imgFileInput (change)="previewImage($event)"/>
-        <button type="button" class="upload-button" mat-button (click)="imgFileInput.click()">
-          <mat-icon>cloud_upload</mat-icon>
-          Add Upload Lua Script File
-        </button>
-
-        <div class="codemirror">
-          <codemirror [(ngModel)]="script" [config]="config"
-                      placeholder="{{'Input wrk Lua script' | translate}}"></codemirror>
-        </div>
-
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <mat-form-field class="p90-width">
-          <input matInput placeholder="{{'Url' | translate}}"
-                 [(ngModel)]="url">
-        </mat-form-field>
-
-      </mat-grid-tile>
-
-      <mat-grid-tile>
-        <table class="p90-width" cellspacing="0">
+    </mat-grid-list>
+    <h4>Stress model</h4>
+    <mat-grid-list cols="4" rowHeight="65px">
+      <mat-grid-tile [colspan]="4">
+        <table class="full-width" cellspacing="0">
           <tr>
             <td>
               <mat-form-field class="full-width">
@@ -48,12 +30,6 @@
                        [(ngModel)]="connections">
               </mat-form-field>
             </td>
-          </tr>
-        </table>
-      </mat-grid-tile>
-      <mat-grid-tile>
-        <table class="p90-width" cellspacing="0">
-          <tr>
             <td>
               <mat-form-field class="full-width">
                 <input matInput placeholder="{{'Durations (unit: s)' | translate}}"
@@ -69,10 +45,230 @@
           </tr>
         </table>
       </mat-grid-tile>
-
     </mat-grid-list>
-    <h3>通过条件</h3>
+    <!-- request url -->
+    <h4>Request URLs <a mat-mini-fab (click)="addUrl()">+</a></h4>
+    <mat-accordion [multi]="true">
+      <mat-expansion-panel *ngFor="let urlDef of testUrls; let i= index" expanded>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            【{{urlDef.method}}】{{urlDef.url}}
+          </mat-panel-title>
+          <mat-panel-description class="panel-header-buttons">
+            <button mat-icon-button (click)="copyUrl(urlDef, i, $event)">
+              <mat-icon>file_copy</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteUrl(urlDef, i, $event)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-panel-description>
+        </mat-expansion-panel-header>
 
+        <mat-grid-list cols="4" rowHeight="60px">
+          <mat-grid-tile>
+            <mat-form-field class="full-width">
+              <mat-select [(value)]="urlDef.method" placeholder="Request Url">
+                <mat-option value="GET">GET</mat-option>
+                <mat-option value="POST">POST</mat-option>
+                <mat-option value="PUT">PUT</mat-option>
+                <mat-option value="DELETE">DELETE</mat-option>
+                <mat-option value="PATCH">PATCH</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile [colspan]="3">
+            <mat-form-field class="full-width">
+              <input matInput placeholder="{{'Url' | translate}}"
+                     [(ngModel)]="urlDef.url">
+            </mat-form-field>
+          </mat-grid-tile>
+          <mat-grid-tile class="url-btn-bar" [colspan]="2">
+            <button mat-stroked-button>
+              <mat-icon>add</mat-icon>
+              Header
+            </button>
+            <button mat-stroked-button>
+              <mat-icon>add</mat-icon>
+              Body
+            </button>
+            <button mat-stroked-button>
+              <mat-icon>add</mat-icon>
+              Check Point
+            </button>
+          </mat-grid-tile>
+        </mat-grid-list>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <h4>Test Models <a mat-mini-fab (click)="addModel()">+</a></h4>
+    <mat-card class="model-card">
+      <table mat-table [dataSource]="testModelsTableSource">
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="sort">
+          <th mat-header-cell *matHeaderCellDef> No.</th>
+          <td mat-cell *matCellDef="let row">
+            {{row.sort + 1}}
+          </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Name</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-form-field class="full-width">
+              <input matInput
+                     [(ngModel)]="row.name"
+                     (change)="updateModelPie()">
+              <!--<mat-error *ngIf="sceneNameCtrl.invalid">{{'error-required' | translate}}</mat-error>-->
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <!-- Test Model Column -->
+        <ng-container matColumnDef="url">
+          <th mat-header-cell *matHeaderCellDef> Test Model</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-form-field class="full-width">
+              <mat-select [(value)]="row.url">
+                <mat-option value="">None</mat-option>
+                <mat-option *ngFor="let urlDef of testUrls" [value]="urlDef.url">
+                  {{urlDef.url}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </td>
+        </ng-container>
+
+        <!-- Load Rate Column -->
+        <ng-container matColumnDef="loadRate">
+          <th mat-header-cell *matHeaderCellDef> Load Rate</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-form-field class="full-width">
+              <input matInput
+                     [(ngModel)]="row.loadRate"
+                     type="number"
+                     (change)="updateModelPie()">
+              <!--<mat-error *ngIf="sceneNameCtrl.invalid">{{'error-required' | translate}}</mat-error>-->
+            </mat-form-field>
+        </ng-container>
+
+        <!-- Process Column -->
+        <ng-container matColumnDef="process">
+          <th mat-header-cell *matHeaderCellDef> Process</th>
+          <td mat-cell *matCellDef="let row">
+            <button (click)="deleteModel(row)">{{'Delete' | translate}}</button>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="testModelsTableColumns;"></tr>
+        <tr mat-row *matRowDef="let row; columns: testModelsTableColumns;"></tr>
+      </table>
+      <echarts-ng2 #echartsTestModelPie [option]="testModelPieOpts"
+                   [style]="{width:'300px'}"></echarts-ng2>
+    </mat-card>
+
+    <h4>Report threshold</h4>
+    <mat-card class="model-card">
+      <table mat-table [dataSource]="testUrlsTableSource" class="url-threshold-table">
+
+        <!-- Url Column -->
+        <ng-container matColumnDef="url">
+          <th mat-header-cell *matHeaderCellDef> Url</th>
+          <td mat-cell *matCellDef="let row"> {{row.url}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="thresholds_sr">
+          <th mat-header-cell *matHeaderCellDef style="max-width: 40px"> Success Rate ≥</th>
+          <td mat-cell *matCellDef="let row">
+            <input
+              [(ngModel)]="row.thresholds.sr"
+              type="number">%
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="thresholds_tps">
+          <th mat-header-cell *matHeaderCellDef> TPS ≥</th>
+          <td mat-cell *matCellDef="let row">
+            <input [(ngModel)]="row.thresholds.tps"
+                   type="number">/s
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="thresholds_rt_avg">
+          <th mat-header-cell *matHeaderCellDef> Avg Response Time ≤</th>
+          <td mat-cell *matCellDef="let row">
+            <input
+              [(ngModel)]="row.thresholds.rt_avg"
+              type="number">s
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="thresholds_rt_99">
+          <th mat-header-cell *matHeaderCellDef> 99% Response Time ≤</th>
+          <td mat-cell *matCellDef="let row">
+            <input
+              [(ngModel)]="row.thresholds.rt_99"
+              type="number">s
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="thresholds_rt_95">
+          <th mat-header-cell *matHeaderCellDef> 95% Response Time ≤</th>
+          <td mat-cell *matCellDef="let row">
+            <input
+              [(ngModel)]="row.thresholds.rt_95"
+              type="number">s
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="thresholds_rt_90">
+          <th mat-header-cell *matHeaderCellDef> 90% Response Time ≤</th>
+          <td mat-cell *matCellDef="let row">
+            <input
+              [(ngModel)]="row.thresholds.rt_90"
+              type="number">s
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="thresholds_rt_75">
+          <th mat-header-cell *matHeaderCellDef> 75% Response Time ≤</th>
+          <td mat-cell *matCellDef="let row">
+            <input
+              [(ngModel)]="row.thresholds.rt_75"
+              type="number">s
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="thresholds_rt_50">
+          <th mat-header-cell *matHeaderCellDef> 50% Response Time ≤</th>
+          <td mat-cell *matCellDef="let row">
+            <input
+              [(ngModel)]="row.thresholds.rt_50"
+              type="number">s
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="testUrlsTableColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: testUrlsTableColumns;"></tr>
+      </table>
+    </mat-card>
+
+    <!--
+        <h4>Custom Lua script</h4>
+        <mat-card>
+          <input hidden type="file" #imgFileInput (change)="previewImage($event)"/>
+          <button type="button" class="upload-button" mat-button (click)="imgFileInput.click()">
+            <mat-icon>cloud_upload</mat-icon>
+            Add Upload Lua Script File
+          </button>
+
+          <div class="codemirror">
+            <codemirror [(ngModel)]="script" [config]="config"
+                        placeholder="{{'Input wrk Lua script' | translate}}"></codemirror>
+          </div>
+        </mat-card>
+        -->
+    <div class="button-bar">
+      <button mat-raised-button color="primary">{{'Cancel' | translate}}</button>
+      <button mat-raised-button color="accent"
+              (click)="doSubmit()">{{'Submit' | translate}}
+      </button>
+    </div>
   </div>
 
 </div>
