@@ -7,6 +7,7 @@ export class AppConfig {
   static appName = "Load Test Manage";
 
   static apiHost = "http://127.0.0.1:5000/api";
+  static expiredTime = 10000; // 分钟
 
   static setUser(user) {
     AppConfig.loginStatus.hasLogin = true;
@@ -30,7 +31,7 @@ export class AppConfig {
     // check login expire
     let now = new Date().getTime();
     let loginDuration = now - AppConfig.loginStatus.loginTime;
-    if (loginDuration > 5 * 60 * 1000) {
+    if (loginDuration > AppConfig.expiredTime * 60 * 1000) {
       storage.remove(USER_STORAGE_KEY);
       return null
     }

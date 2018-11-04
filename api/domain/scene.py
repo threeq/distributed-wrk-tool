@@ -10,13 +10,22 @@ class Scene(Entity):
         Entity.__init__(self, **kwargs)
 
         self.name = kwargs.get('name', None)
-        self.project_id = kwargs.get('project_id', None)
+        self.projectId = kwargs.get('projectId', None)
+
+        self.threads = int(kwargs.get('threads', None))
+        self.connections = int(kwargs.get('connections', None))
+        self.durations = int(kwargs.get('durations', None))
+        self.timeout = int(kwargs.get('timeout', None))
+        self.script = kwargs.get('script', None)
+
+        self.testUrls = kwargs.get("testUrls", None)
+        self.testModels = kwargs.get("testModels", None)
 
     def save(self, storage):
         if self.name is None:
             raise DomainException(Code.NO_DATA, 'scene name is empty')
 
-        if self.project_id is None:
+        if self.projectId is None:
             raise DomainException(Code.NO_DATA, 'project id is empty')
 
         return super().save(storage)

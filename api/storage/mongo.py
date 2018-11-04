@@ -19,10 +19,39 @@ class MgoCrud:
         result = self.collection.delete_one({'_id': ObjectId(_id)})
         return result
 
-    def find_by_filter(self, *args, **kwargs):
-        # TODO 复制查询支持
-        docs = self.collection.find(*args)
+    def find(self, filter=None, sorts=None, page=None):
+        """
+        - `filter` 过滤参数
+        - `sorts` 排序参数 [{'field1':1}, {'field2':-1}]
+           1: 正序；-1: 倒序
+        - `page` 分页参数 { num: 1, size: 10 }
+           num: 页数
+           size: 页大小
+        :param filter:
+        :param sorts:
+        :param page:
+        :return:
+        """
+
+        # 过滤
+        docs = self.collection.find(filter)
+
+        # 排序
+        if sorts is not None:
+            sorts = [(field, direction if direction == pymongo.ASCENDING else pymongo.DESCENDING)
+                     for s in sorts for (field, direction) in s.items()]
+            docs = docs.sort(sorts)
+
+        # 分页
+        if page is not None:
+            page_num = page.num if page.num >= 1 else 1
+            offset = (page_num - 1) * page.size
+            docs = docs.skip(offset).limit(page.size)
+
         return [self.doc2entity(doc) for doc in docs]
+
+    def count(self, filter=None):
+        return self.collection.count_documents(filter)
 
     def save(self, user):
         data = {k: v for k, v in vars(user).items() if v is not None}  # loginStatus.__dict__

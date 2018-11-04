@@ -1,11 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
 import {CurrentProject} from "../../projects.component";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {Project} from "../../../@common/api/projects-api.service";
 import * as _ from "lodash";
 import {MatTableDataSource} from "@angular/material";
 import {EChartOption, ECharts} from "echarts-ng2";
+import {ModelConf, Scene, ScenesApiService, UrlConf} from "../../../@common/api/scenes-api.service";
 
 @Component({
   selector: 'app-scene-add',
@@ -17,40 +18,27 @@ export class SceneAddComponent implements OnInit {
   sceneNameCtrl = new FormControl('', [
     Validators.required]);
 
-  sceneName: string;
-  url: string;
-  threads: number;
-  connections: number;
-  durations: number;
-  timeout: number;
-  script: string;
-  private project: Project;
-  config;
+  scene: Scene = new Scene();
+  private project: Project = new Project();
+  codemirrorConfig;
 
-  testUrls: UrlConf[] = [new UrlConf()];
-  testUrlsTableColumns = ['url', 'thresholds_sr', 'thresholds_tps','thresholds_rt_avg', 'thresholds_rt_99', 'thresholds_rt_95', 'thresholds_rt_90', 'thresholds_rt_75', 'thresholds_rt_50'];
+  testUrlsTableColumns = ['url', 'thresholds_sr', 'thresholds_tps', 'thresholds_rt_avg', 'thresholds_rt_99', 'thresholds_rt_95', 'thresholds_rt_90', 'thresholds_rt_75', 'thresholds_rt_50'];
   testUrlsTableSource: MatTableDataSource<UrlConf>;
 
-  testModels: TestModel[] = [];
-  testModelsTableColumns = Object.keys(new TestModel()).concat(["process"]);
-  testModelsTableSource = new MatTableDataSource<TestModel>();
+  testModelsTableColumns = Object.keys(new ModelConf()).concat(["process"]);
+  testModelsTableSource = new MatTableDataSource<ModelConf>();
 
   @ViewChild('echartsTestModelPie') echarts: ECharts;
   testModelPieOpts: EChartOption = this.createTestModelPieOpts();
 
   constructor(
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    private scenesApi: ScenesApiService,
   ) {
-    // if (!CurrentProject.project) {
-    //   this.router.navigateByUrl("/modules/projects");
-    //   return
-    // }
-    // this.project = CurrentProject.project;
-    this.project = new Project("Test");
-    this.testUrlsTableSource = new MatTableDataSource<UrlConf>(this.testUrls);
+    this.testUrlsTableSource = new MatTableDataSource<UrlConf>(this.scene.testUrls);
 
-
-    this.config = {
+    this.codemirrorConfig = {
       lineNumbers: true,
       theme: "neat",
       mode: 'text/x-lua',
@@ -67,31 +55,40 @@ export class SceneAddComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.testModelsTableColumns)
+    this.defaultSceneData();
+
+    this.project._id = this.route.snapshot.params['id'];
+    this.scene.projectId = this.project._id;
+
+    // this.route.params.subscribe(params => {
+    //   this.project._id = params['id']
+    // });
   }
 
   addUrl() {
-    this.testUrls.push(new UrlConf());
-    this.testUrlsTableSource.data = this.testUrls;
+    this.doAddUrlConf(new UrlConf());
   }
 
   copyUrl(urlDef: UrlConf, index, $event) {
     $event.stopPropagation();
     $event.preventDefault();
+    this.doAddUrlConf(_.cloneDeep(urlDef));
+  }
 
-    this.testUrls.push(_.cloneDeep(urlDef));
-    this.testUrlsTableSource.data = this.testUrls;
+  private doAddUrlConf(urlConf: UrlConf) {
+    this.scene.testUrls.push(urlConf);
+    this.testUrlsTableSource.data = this.scene.testUrls;
   }
 
   deleteUrl(urlDef: any, index, $event) {
     $event.stopPropagation();
     $event.preventDefault();
-    this.testUrls.splice(index, 1);
-    this.testUrlsTableSource.data = this.testUrls;
+    this.scene.testUrls.splice(index, 1);
+    this.testUrlsTableSource.data = this.scene.testUrls;
   }
 
   addModel() {
-    this.doAddModel(new TestModel());
+    this.doAddModel(new ModelConf());
     this.updateModelPie();
   }
 
@@ -104,25 +101,37 @@ export class SceneAddComponent implements OnInit {
     this.testModelPieOpts = this.createTestModelPieOpts();
   }
 
+  doSubmit() {
+    console.log(this.scene)
+    this.scenesApi.add(this.scene).subscribe(data => {
+      console.log("add response:", data)
+      this.router.navigateByUrl("/modules/projects/" + this.project._id)
+    })
+  }
+
+  doCancel() {
+    this.router.navigateByUrl("/modules/projects/" + this.project._id)
+  }
+
   private doAddModel(model) {
-    model.sort = this.testModels.length;
+    model.sort = this.scene.testModels.length;
     if (!model.name) {
       model.name = String(model.sort + 1);
     }
-    this.testModels.push(model);
-    this.testModelsTableSource.data = this.testModels;
+    this.scene.testModels.push(model);
+    this.testModelsTableSource.data = this.scene.testModels;
+    return model;
   }
 
   private doDeleteModel(model) {
-    this.testModels.splice(model.sort, 1);
-    this.testModels.forEach((model, index) => {
-      console.log(model.name, model.sort);
-      if (model.name == String(model.sort+1)) {
+    this.scene.testModels.splice(model.sort, 1);
+    this.scene.testModels.forEach((model, index) => {
+      if (model.name == String(model.sort + 1)) {
         model.name = String(index + 1);
       }
       model.sort = index;
     });
-    this.testModelsTableSource.data = this.testModels;
+    this.testModelsTableSource.data = this.scene.testModels;
   }
 
   private createTestModelPieOpts(): EChartOption {
@@ -165,38 +174,43 @@ export class SceneAddComponent implements OnInit {
               show: false
             }
           },
-          data: this.testModels.map(model => {
+          data: this.scene.testModels.map(model => {
             return {name: model.name, value: model.loadRate}
           })
         }
       ]
     };
   }
-}
 
-export class TestModel {
-  sort: number = 0;
-  name: string = "";
-  url: string = "";
-  loadRate: number = 0;
-}
+  private defaultSceneData() {
+    this.scene.name = "Scene Example";
+    this.scene.connections = 1;
+    this.scene.durations = 1;
+    this.scene.threads = 1;
+    this.scene.timeout = 1;
 
-export class UrlConf {
-  method: string = 'GET';
-  url: string;
-  headers: object = {};
-  body: any = "";
-  checkPoints: any = "";
-  thresholds: any[]= [];
-}
+    let host = window.location.host;
+    let model = new ModelConf();
+    model.name = "model 1";
+    model.url = host;
+    model.loadRate = 100;
+    this.doAddModel(model);
 
-export enum TestCheckType {
-  SuccessRate,        // 成功率
-  AvgTps,             // 平均 TPS
-  AvgResponseTime,    // 平均 响应时间
-  P99ResponseTime,
-  P95ResponseTime,
-  P90ResponseTime,
-  P75ResponseTime,
-  P50ResponseTime,
+    let urlConf = new UrlConf();
+    urlConf.url = host;
+    urlConf.method = 'GET';
+    urlConf.thresholds = {
+      "sr": 99.9,
+      "tps": 10,
+      "rt_avg": 100,
+      "rt_99": 100,
+      "rt_95": 100,
+      "rt_90": 100,
+      "rt_75": 100,
+      "rt_50": 100
+    };
+    this.doAddUrlConf(urlConf);
+
+  }
+
 }

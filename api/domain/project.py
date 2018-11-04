@@ -15,7 +15,7 @@ class Project(Entity):
         if self.name is None:
             raise DomainException(Code.NO_DATA, 'project name is empty')
 
-        docs = storage.find_by_filter({'name': self.name})
+        docs = storage.find({'name': self.name})
         if len(docs) != 0:
             raise DomainException(Code.EXIST_DATA, 'project name exist')
 

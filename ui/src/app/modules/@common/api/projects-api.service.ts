@@ -3,7 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {AppConfig} from "../../../app.config";
 import {Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {BaseApi, Entity, ResponseEntity} from "./base-api";
+import {ResourceApi, Entity, ResponseEntity} from "./resource-api";
 
 export class Project extends Entity {
   name: string;
@@ -18,28 +18,13 @@ export class Project extends Entity {
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectsApiService extends BaseApi {
+export class ProjectsApiService extends ResourceApi {
 
-  private apiVersion: string = AppConfig.apiHost + "/v1";
-  private projectsUrl: string = this.apiVersion + '/projects';
+  private static apiVersion: string = AppConfig.apiHost + "/v1";
+  private static projectsUrl: string = ProjectsApiService.apiVersion + '/projects';
 
   constructor(private http: HttpClient) {
-    super()
+    super(http, ProjectsApiService.projectsUrl)
   }
 
-  page(): Observable<ResponseEntity> {
-    return this.http.get(this.projectsUrl).pipe(map(obj => <ResponseEntity> obj))
-  }
-
-  add(project: Project): Observable<ResponseEntity> {
-    return this.http.post(this.projectsUrl, project).pipe(map(obj => <ResponseEntity> obj))
-  }
-
-  delete(_id: string): Observable<ResponseEntity> {
-    return this.http.delete(this.projectsUrl + '/' + _id).pipe(map(obj => <ResponseEntity> obj))
-  }
-
-  update(project: Project): Observable<ResponseEntity> {
-    return this.http.put(this.projectsUrl + '/' + project._id, project).pipe(map(obj => <ResponseEntity> obj))
-  }
 }

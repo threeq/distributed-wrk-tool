@@ -7,7 +7,7 @@ with open("wrk.yaml", "r") as stream:
         exit(1)
 
     if "all" not in configs:
-        print("all config not found!")
+        print("all codemirrorConfig not found!")
         exit(1)
 
 

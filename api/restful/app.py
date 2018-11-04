@@ -11,7 +11,7 @@ app = Flask(__name__)
 
 @app.errorhandler(DomainException)
 def _domain_exception(ex: DomainException):
-    error = ResponseEntity(code=ex.code)
+    error = ResponseEntity(code=ex.code, msg=ex.msg)
     print(error.dict())
     response = jsonify(error.dict())
     response.status_code = 500

@@ -4,6 +4,7 @@ import {AdminApiService} from "./admin-api.service";
 import {HttpClientModule} from "@angular/common/http";
 import {SystemApiService} from "./system-api.service";
 import {ProjectsApiService} from "./projects-api.service";
+import {ScenesApiService} from "./scenes-api.service";
 
 @NgModule({
   imports: [
@@ -13,7 +14,8 @@ import {ProjectsApiService} from "./projects-api.service";
   providers: [
     AdminApiService,
     SystemApiService,
-    ProjectsApiService
+    ProjectsApiService,
+    ScenesApiService,
   ]
 })
 export class ApiModule { }

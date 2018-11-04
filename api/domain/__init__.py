@@ -57,8 +57,8 @@ class ApplicationService:
     def save(self, entity):
         return entity.save(self.storage)
 
-    def find_by_filter(self, *args, **kwargs):
-        return self.storage.find_by_filter(*args, **kwargs)
+    def find(self, filter=None, sort=None, page=None):
+        return self.storage.find(filter=filter, sorts=sort, page=page)
 
     def delete(self, user_id):
         self.storage.delete(user_id)

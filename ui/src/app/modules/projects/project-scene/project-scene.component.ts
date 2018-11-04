@@ -1,8 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {CurrentProject} from "../projects.component";
 import {Project} from "../../@common/api/projects-api.service";
-import {Router} from "@angular/router";
+import {ActivatedRoute, Router} from "@angular/router";
 import {MatDialog} from "@angular/material";
+import {ScenesApiService} from "../../@common/api/scenes-api.service";
 
 @Component({
   selector: 'app-project-scene',
@@ -11,51 +12,31 @@ import {MatDialog} from "@angular/material";
 })
 export class ProjectSceneComponent implements OnInit {
 
-  project: Project;
-  scenes = [{
-    _id: '111',
-    name: ' 22222s'
-  }, {
-    _id: '111',
-    name: ' 22222sdf'
-  }, {
-    _id: '111',
-    name: ' 22222s '
-  }, {
-    _id: '111',
-    name: ' 22222sd'
-  }, {
-    _id: '111',
-    name: ' 22222sdf'
-  }, {
-    _id: '111',
-    name: ' 22222sd'
-  }, {
-    _id: '111',
-    name: ' 22222sdf '
-  }, {
-    _id: '111',
-    name: ' 22222s'
-  }];
+  project: Project = new Project();
+  scenes = [];
 
   constructor(
     private router: Router,
-    private dialog: MatDialog
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private scenesApi: ScenesApiService,
   ) {
-    if (!CurrentProject.project) {
-      this.router.navigateByUrl("/modules/projects");
-      return
-    }
 
-    this.project = CurrentProject.project;
-    this.refreshData();
   }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      this.project._id = params['id']
+    });
+    this.refreshData();
   }
 
   refreshData() {
-
+    this.scenesApi.page({
+      projectId: this.project._id
+    }).subscribe(response => {
+      this.scenes = response.data.list
+    })
   }
 
   addScene() {

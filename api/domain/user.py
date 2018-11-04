@@ -43,7 +43,7 @@ class User(Entity):
         return Entity.save(self, storage)
 
     def enable_only_field(self, storage, field_filter):
-        field_objs = storage.find_by_filter(field_filter)
+        field_objs = storage.find(field_filter)
         if self.id() is None and len(field_objs) > 0:
             # 增加校验
             return False
@@ -60,7 +60,7 @@ class UserService(ApplicationService):
         ApplicationService.__init__(self, storage)
 
     def login(self, email, pwd):
-        docs = self.find_by_filter({'email': email})
+        docs = self.find({'email': email})
         if len(docs) != 1:
             raise DomainException(Code.ERR_EMAIL)
 

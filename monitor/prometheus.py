@@ -41,7 +41,7 @@ def local_install_by_docker(_):
                     -p 9090:9090 \
                     -v /prometheus-data:/prometheus-data \
                     prom/prometheus \
-                    --config.file=/prometheus-data/prometheus.yml')
+                    --codemirrorConfig.file=/prometheus-data/prometheus.yml')
 
 
 def remote_install_node_exporter(ctx):

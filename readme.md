@@ -81,7 +81,7 @@ pipenv run fab runtest
 monitor:
   # 服务器机器监控
   prometheus:
-    # my global config
+    codemirrorConfig
     global:
       scrape_interval:     5s # Set the scrape interval to every 15 seconds. Default is every 1 minute.
       evaluation_interval: 5s # Evaluate rules every 15 seconds. The default is every 1 minute.
@@ -102,7 +102,7 @@ monitor:
     # A scrape configuration containing exactly one endpoint to scrape:
     # Here it's Prometheus itself.
     scrape_configs:
-    # The job name is added as a label `job=<job_name>` to any timeseries scraped from this config.
+    codemirrorConfig
     - job_name: 'client-nodes'
 
       # metrics_path defaults to '/metrics'

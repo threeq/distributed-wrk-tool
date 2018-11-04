@@ -30,7 +30,7 @@ import 'codemirror/addon/display/fullscreen';
 })
 export class CodemirrorComponent implements AfterViewInit, OnDestroy {
 
-  @Input() config; // config http://codemirror.net/doc/manual.html#config
+  @Input() config; // codemirrorConfig http://codemirror.net/doc/manual.html#config
   @Input() placeholder;
 
   @Output() change = new EventEmitter();

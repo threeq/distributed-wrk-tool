@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
 import {SystemApiService, User} from "../@common/api/system-api.service";
-import {ResponseEntity} from "../@common/api/base-api";
+import {ResponseEntity} from "../@common/api/resource-api";
 import {Router} from "@angular/router";
 import {MatSnackBar} from "@angular/material";
 import {AppConfig} from "../../app.config";

@@ -31,7 +31,7 @@ class UsersApi(Resource):
     @marshal_with(detail_marshal)
     def get(self, user_id=None):
         if user_id is None:
-            l = self.user_service.find_by_filter()
+            l = self.user_service.find()
 
             return ResponseEntity(data=RollPage(list=l))
 

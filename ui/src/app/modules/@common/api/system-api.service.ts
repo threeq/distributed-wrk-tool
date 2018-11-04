@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {BaseApi} from "./base-api";
+import {ResourceApi} from "./resource-api";
 import {AppConfig} from "../../../app.config";
 
 
@@ -13,14 +13,13 @@ export class User {
 @Injectable({
   providedIn: 'root',
 })
-export class SystemApiService extends BaseApi {
+export class SystemApiService {
 
   private baseUrl: string = AppConfig.apiHost + "/v1";
   private loginUrl: string = this.baseUrl + '/sys/login';
   private registerUrl: string = this.baseUrl + '/users';
 
   constructor(private http: HttpClient) {
-    super()
   }
 
 
