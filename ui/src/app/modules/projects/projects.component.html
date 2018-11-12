@@ -1,8 +1,7 @@
 <div class="grid-container project-list">
   <a mat-mini-fab class="project-add" (click)="addProject()">+</a>
-  <mat-grid-list class="project-grid" cols="5" rowHeight="1:1">
-    <mat-grid-tile *ngFor="let proj of projects">
-      <mat-card class="project-card">
+  <div class="card-list">
+    <mat-card class="project-card" *ngFor="let proj of projects">
         <mat-card-header>
           <mat-card-title>{{proj.name}}</mat-card-title>
         </mat-card-header>
@@ -16,7 +15,6 @@
           <a mat-button (click)="onGoProject(proj)">{{"Detail" | translate}}</a>
         </mat-card-actions>
       </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+  </div>
 </div>
 

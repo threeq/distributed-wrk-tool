@@ -65,8 +65,14 @@ import {EchartsNg2Module} from "echarts-ng2";
         path: ':id/monitor',
         component: ProjectMonitorComponent
       }, {
-        path: ':id/scene/add',
+        path: ':projectId/scene/add',
         component: SceneAddComponent
+      }, {
+        path: ':projectId/scene/edit/:_id',
+        component: SceneAddComponent
+      }, {
+        path: ':projectId/scene/detail',
+        component: SceneDetailComponent,
       }]),
   ],
   exports: [RouterModule],

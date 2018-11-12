@@ -1,6 +1,6 @@
 import abc
 import json
-from urllib.parse import urlencode
+from urllib.parse import unquote
 
 from flask import request
 from flask_restful import marshal, Resource
@@ -18,13 +18,18 @@ class BaseResourceApi(Resource):
         self.list_marshal = list_marshal
         self.page_marshal = page_marshal
 
-    # list search
-    # TODO 支持分页
-    # TODO 支持过滤参数
     def search(self):
-        q = json.loads(urlencode(request.args.get('_q', default=None)))
-        sorts = json.loads(urlencode(request.args.get('sorts', default=None)))
-        page = json.loads(urlencode(request.args.get('page', default=None)))
+        q = request.args.get('_q', default=None)
+        if q is not None:
+            q = json.loads(unquote(q))
+
+        sorts = request.args.get('sorts', default=None)
+        if sorts is not None:
+            sorts = json.loads(unquote(sorts))
+
+        page = request.args.get('page', default=None)
+        if page is not None:
+            page = json.loads(unquote(page))
 
         page = self.service.find(filter=q, sort=sorts, page=page)
 

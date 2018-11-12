@@ -41,7 +41,7 @@ export class ScenesApiService extends ResourceApi<Scene> {
   private static scenesUrl: string = ScenesApiService.apiVersion + '/scenes';
 
   constructor(
-    private http: HttpClient
+    http: HttpClient
   ) {
     super(http, ScenesApiService.scenesUrl)
   }

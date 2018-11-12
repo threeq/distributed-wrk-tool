@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {CurrentProject} from "../projects.component";
-import {Project} from "../../@common/api/projects-api.service";
+import {Project, ProjectsApiService} from "../../@common/api/projects-api.service";
 import {ActivatedRoute, Router} from "@angular/router";
-import {MatDialog} from "@angular/material";
-import {ScenesApiService} from "../../@common/api/scenes-api.service";
+import {MatDialog, MatSnackBar} from "@angular/material";
+import {Scene, ScenesApiService} from "../../@common/api/scenes-api.service";
 
 @Component({
   selector: 'app-project-scene',
@@ -20,20 +20,35 @@ export class ProjectSceneComponent implements OnInit {
     private route: ActivatedRoute,
     private dialog: MatDialog,
     private scenesApi: ScenesApiService,
+    private projectsApi: ProjectsApiService,
+    private snackBar: MatSnackBar
   ) {
-
+    if(CurrentProject.project) {
+      this.project = CurrentProject.project;
+    }
   }
 
   ngOnInit() {
     this.route.params.subscribe(params => {
-      this.project._id = params['id']
+      this.project._id = params['id'];
+      this.projectsApi.detail(this.project._id).subscribe(resp => {
+        this.project = resp.data;
+        this.refreshData();
+      }, error => {
+        this.snackBar.open(error.error.msg, "OK", {
+          duration: 2000,
+        });
+        this.router.navigateByUrl("/modules/projects");
+      })
     });
-    this.refreshData();
+
   }
 
   refreshData() {
     this.scenesApi.page({
-      projectId: this.project._id
+      _q: JSON.stringify({
+        projectId: this.project._id
+      })
     }).subscribe(response => {
       this.scenes = response.data.list
     })
@@ -41,20 +56,13 @@ export class ProjectSceneComponent implements OnInit {
 
   addScene() {
     this.router.navigateByUrl("/modules/projects/" + this.project._id + "/scene/add");
-    return
-    //
-    // const dialogRef = this.dialog.open(SceneAddDialogComponent, {
-    //   width: '800px',
-    // });
-    //
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result) {
-    //     this.refreshData();
-    //   }
-    // });
   }
 
   delScene() {
 
+  }
+
+  editScene(scene: Scene) {
+    this.router.navigateByUrl("/modules/projects/" + this.project._id + "/scene/edit/"+scene._id);
   }
 }

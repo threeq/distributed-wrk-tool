@@ -27,8 +27,12 @@
   .button-bar {
     display: flex;
     justify-content: center;
-    button,a {
+    button, a {
       margin: 20px;
     }
+  }
+  .card-list {
+    display: flex;
+    flex-flow: wrap;
   }
 }

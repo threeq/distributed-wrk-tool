@@ -2,11 +2,12 @@ import {Component, OnInit, ViewChild} from '@angular/core';
 import {FormControl, Validators} from "@angular/forms";
 import {CurrentProject} from "../../projects.component";
 import {ActivatedRoute, Router} from "@angular/router";
-import {Project} from "../../../@common/api/projects-api.service";
+import {Project, ProjectsApiService} from "../../../@common/api/projects-api.service";
 import * as _ from "lodash";
-import {MatTableDataSource} from "@angular/material";
+import {MatSnackBar, MatTableDataSource} from "@angular/material";
 import {EChartOption, ECharts} from "echarts-ng2";
 import {ModelConf, Scene, ScenesApiService, UrlConf} from "../../../@common/api/scenes-api.service";
+import {ResponseEntity} from "../../../@common/api/resource-api";
 
 @Component({
   selector: 'app-scene-add',
@@ -35,7 +36,12 @@ export class SceneAddComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private scenesApi: ScenesApiService,
+    private projectsApi: ProjectsApiService,
+    private snackBar: MatSnackBar
   ) {
+    if (CurrentProject.project) {
+      this.project = CurrentProject.project;
+    }
     this.testUrlsTableSource = new MatTableDataSource<UrlConf>(this.scene.testUrls);
 
     this.codemirrorConfig = {
@@ -57,12 +63,18 @@ export class SceneAddComponent implements OnInit {
   ngOnInit() {
     this.defaultSceneData();
 
-    this.project._id = this.route.snapshot.params['id'];
+    this.project._id = this.route.snapshot.params['projectId'];
     this.scene.projectId = this.project._id;
 
-    // this.route.params.subscribe(params => {
-    //   this.project._id = params['id']
-    // });
+    this.projectsApi.detail(this.project._id).subscribe(resp => {
+      this.project = resp.data;
+      this.scene.projectId = this.project._id;
+    }, error => {
+      this.snackBar.open(error.error.msg, "OK", {
+        duration: 2000,
+      });
+      this.router.navigateByUrl("/modules/projects");
+    })
   }
 
   addUrl() {
@@ -102,9 +114,8 @@ export class SceneAddComponent implements OnInit {
   }
 
   doSubmit() {
-    console.log(this.scene)
     this.scenesApi.add(this.scene).subscribe(data => {
-      console.log("add response:", data)
+      console.log("add response:", data);
       this.router.navigateByUrl("/modules/projects/" + this.project._id)
     })
   }
@@ -183,6 +194,22 @@ export class SceneAddComponent implements OnInit {
   }
 
   private defaultSceneData() {
+    console.log(this.route.snapshot.params);
+    let _id = this.route.snapshot.params['_id'];
+    if (_id) {
+      this.scenesApi.detail(_id).subscribe((response: ResponseEntity) => {
+        if (response.ok()) {
+          this.scene = response.data;
+          return
+        }
+        this.defaultAddData();
+      }, error1 => this.defaultAddData());
+    } else {
+      this.defaultAddData();
+    }
+  }
+
+  private defaultAddData() {
     this.scene.name = "Scene Example";
     this.scene.connections = 1;
     this.scene.durations = 1;
@@ -210,7 +237,7 @@ export class SceneAddComponent implements OnInit {
       "rt_50": 100
     };
     this.doAddUrlConf(urlConf);
-
   }
+
 
 }

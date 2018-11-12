@@ -18,12 +18,12 @@ export class Project extends Entity {
 @Injectable({
   providedIn: 'root'
 })
-export class ProjectsApiService extends ResourceApi {
+export class ProjectsApiService extends ResourceApi<Project> {
 
   private static apiVersion: string = AppConfig.apiHost + "/v1";
   private static projectsUrl: string = ProjectsApiService.apiVersion + '/projects';
 
-  constructor(private http: HttpClient) {
+  constructor(http: HttpClient) {
     super(http, ProjectsApiService.projectsUrl)
   }
 

@@ -5,9 +5,8 @@
 </div>
 
 <div class="has-sidenav-content">
-  <mat-grid-list class="project-scene-grid" cols="5" rowHeight="1:1">
-    <mat-grid-tile *ngFor="let scene of scenes">
-      <mat-card class="project-scene-card">
+  <div class="card-list">
+    <mat-card class="project-scene-card" *ngFor="let scene of scenes">
         <mat-card-header>
           <mat-card-title>{{scene.name}}</mat-card-title>
         </mat-card-header>
@@ -24,12 +23,11 @@
           <a mat-icon-button>
             <mat-icon>list</mat-icon>
           </a>
-          <a mat-icon-button>
+          <a mat-icon-button (click)="editScene(scene)">
             <mat-icon>edit</mat-icon>
           </a>
         </mat-card-actions>
       </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
+  </div>
 </div>
 
