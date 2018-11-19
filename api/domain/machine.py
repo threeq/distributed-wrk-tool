@@ -1,5 +1,7 @@
 from abc import ABC
 
+from api.common.code_def import Code
+from api.common.exception import DomainException
 from api.domain import Entity, Storage, ApplicationService
 
 
@@ -8,9 +10,25 @@ class Machine(Entity):
         Entity.__init__(self, **kwargs)
 
         self.name = kwargs.get("name", None)
+        self.type = kwargs.get("type", None)
         self.ip = kwargs.get("ip", None)
 
     def save(self, storage):
+        if self.name is None:
+            raise DomainException(Code.NO_DATA, 'machine name is empty')
+        if self.ip is None:
+            raise DomainException(Code.NO_DATA, 'machine ip is empty')
+        if self.type is None:
+            raise DomainException(Code.NO_DATA, 'machine type is empty')
+
+        docs = storage.find({'name': self.name})
+        if len(docs) != 0:
+            raise DomainException(Code.EXIST_DATA, 'machine name exist')
+
+        docs = storage.find({'ip': self.ip})
+        if len(docs) != 0:
+            raise DomainException(Code.EXIST_DATA, 'machine ip exist')
+
         return super().save(storage)
 
 

@@ -1,6 +1,7 @@
 from flask import Blueprint
 from flask_restful import Api
 
+from api.restful.resources.machines_api import MachinesApi
 from api.restful.resources.projects_api import ProjectsApi
 from api.restful.resources.scenes_api import ScenesApi
 from api.restful.resources.sys_api import LoginApi
@@ -14,4 +15,4 @@ api_v1.add_resource(LoginApi, '/sys/login')
 api_v1.add_resource(UsersApi, '/users', '/users/<user_id>')
 api_v1.add_resource(ProjectsApi, '/projects', '/projects/<_id>')
 api_v1.add_resource(ScenesApi, '/scenes', '/scenes/<_id>')
-api_v1.add_resource(ScenesApi, '/machines', '/machines/<_id>')
+api_v1.add_resource(MachinesApi, '/machines', '/machines/<_id>')

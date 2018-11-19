@@ -23,6 +23,8 @@ import {SceneDetailComponent} from './project-scene/scene-detail/scene-detail.co
 import {SceneAddComponent} from './project-scene/scene-add/scene-add.component';
 import {CodemirrorModule} from "../../plugins/codemirror/codemirror.module";
 import {EchartsNg2Module} from "echarts-ng2";
+import {ProjectResourceComponent} from './project-resource/project-resource.component';
+import {ProjectResourceAddComponent} from './project-resource-add/project-resource-add.component';
 
 @NgModule({
   imports: [
@@ -65,6 +67,9 @@ import {EchartsNg2Module} from "echarts-ng2";
         path: ':id/monitor',
         component: ProjectMonitorComponent
       }, {
+        path: ':id/resource',
+        component: ProjectResourceComponent,
+      }, {
         path: ':projectId/scene/add',
         component: SceneAddComponent
       }, {
@@ -84,9 +89,12 @@ import {EchartsNg2Module} from "echarts-ng2";
     ProjectMonitorComponent,
     SceneDetailComponent,
     SceneAddComponent,
+    ProjectResourceComponent,
+    ProjectResourceAddComponent,
   ],
   entryComponents: [
     ProjectAddDialogComponent,
+    ProjectResourceAddComponent,
   ]
 })
 export class ProjectsModule {

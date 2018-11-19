@@ -34,5 +34,18 @@
   .card-list {
     display: flex;
     flex-flow: wrap;
+    .mat-card {
+      margin: 20px;
+    }
+  }
+
+  .flat-fab-buttons {
+    position: fixed;
+    z-index: 999;
+    right: 17px;
+    top: 75px;
+    > a {
+      margin: 5px;
+    }
   }
 }

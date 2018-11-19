@@ -68,8 +68,8 @@ export class ProjectsComponent implements OnInit {
         content: "Are you sure you want to delete [" + project.name + "] ?",
       }
     });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+    dialogRef.afterClosed().subscribe(ok => {
+      if (ok) {
         this.projectsApi.delete(project._id).subscribe(ok => {
           this.snackBar.open(ok.msg, "OK", {
             duration: 2000,

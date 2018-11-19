@@ -1,0 +1,31 @@
+<app-sidenav class="side-nav" [project]="project"></app-sidenav>
+
+<div class="flat-fab-buttons">
+  <a mat-mini-fab (click)="addResource()">+</a>
+  <!--<a mat-mini-fab class='color-gray' (click)="delScene()">-</a>-->
+</div>
+
+<div class="has-sidenav-content">
+  <div>
+    资源类别过滤
+  </div>
+  <div class="card-list">
+    <mat-card *ngFor="let machine of machines">
+      <mat-card-header>
+        <mat-card-title>{{machine.name}}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <p>
+          {{machine.type==1?'Server Machine':'Test Machine'}}
+        </p>
+        <p>
+          {{machine.ip}}
+        </p>
+      </mat-card-content>
+      <mat-card-actions>
+        <a mat-button (click)="onDelete(machine)">{{'Delete' | translate}}</a>
+        <a mat-button (click)="editResource(machine)">{{"Detail" | translate}}</a>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

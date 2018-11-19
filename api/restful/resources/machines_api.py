@@ -14,6 +14,7 @@ base_fields = {
     'active': fields.Integer,
 
     'name': fields.String,
+    'type': fields.Integer,
     'ip': fields.String,
 }
 

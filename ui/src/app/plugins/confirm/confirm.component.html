@@ -1,7 +1,7 @@
 <h2 mat-dialog-title>{{ data.title | translate }}</h2>
 
 <mat-dialog-content class="mat-typography">
-  <p>{{data.content}}</p>
+  <p [innerHtml]="data.content"></p>
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
