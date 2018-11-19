@@ -21,7 +21,7 @@ class Storage:
         pass
 
     @abc.abstractmethod
-    def find_by_filter(self, *args, **kwargs):
+    def find(self, *args, **kwargs):
         pass
 
 
