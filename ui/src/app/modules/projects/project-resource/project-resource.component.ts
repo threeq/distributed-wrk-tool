@@ -5,7 +5,7 @@ import {Project, ProjectsApiService} from "../../@common/api/projects-api.servic
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {Machine, MachinesApiService} from "../../@common/api/machines-api.service";
 import {ProjectResourceAddComponent} from "../project-resource-add/project-resource-add.component";
-import _ from 'lodash'
+import * as _ from 'lodash'
 import {ConfirmComponent} from "../../../plugins/confirm/confirm.component";
 
 @Component({
@@ -76,7 +76,7 @@ export class ProjectResourceComponent implements OnInit {
     const dialogRef = this.dialog.open(ConfirmComponent, {
       width: '450px',
       data: {
-        title: "Delete Rerouce",
+        title: "Delete Resource",
         content: `Are you sure you want to delete [${resource.name}] ?<br>
                   <em>This resource is not being monitored !</em>`,
       }

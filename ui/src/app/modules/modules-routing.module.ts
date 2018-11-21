@@ -13,6 +13,9 @@ const routes: Routes = [
     }, {
       path: 'projects',
       loadChildren: './projects/projects.module#ProjectsModule'
+    }, {
+      path: 'resources',
+      loadChildren: './resources/resources.module#ResourcesModule'
     }],
   }
 ];
