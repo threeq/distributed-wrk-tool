@@ -12,6 +12,7 @@ class Machine(Entity):
         self.name = kwargs.get("name", None)
         self.type = kwargs.get("type", None)
         self.ip = kwargs.get("ip", None)
+        self.parent = kwargs.get("parent", None)
 
     def save(self, storage):
         if self.name is None:
@@ -25,9 +26,14 @@ class Machine(Entity):
         if len(docs) != 0:
             raise DomainException(Code.EXIST_DATA, 'machine name exist')
 
-        docs = storage.find({'ip': self.ip})
+        docs = storage.find({'ip': self.ip, 'type': self.type})
         if len(docs) != 0:
             raise DomainException(Code.EXIST_DATA, 'machine ip exist')
+
+        if self.type is 0:
+            docs = storage.find({'type': self.type})
+            if len(docs) != 0:
+                raise DomainException(Code.EXIST_DATA, 'root monitor node exist')
 
         return super().save(storage)
 

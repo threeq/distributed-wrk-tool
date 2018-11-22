@@ -1,12 +1,13 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {Entity, ResourceApi} from "./resource-api";
 import {AppConfig} from "../../../app.config";
 import {HttpClient} from "@angular/common/http";
 
 export class Machine extends Entity {
   name: string;
-  type: string;
+  type: number;
   ip: string;
+  parent: string='';
 
   constructor() {
     super();
@@ -15,8 +16,10 @@ export class Machine extends Entity {
 }
 
 export enum MachineType {
-  SERVER_MACHINE = 1,
-  TEST_MACHINE = 2
+  MONITOR_ROOT = 0,
+  MONITOR_MACHINE = 1,
+  SERVER_MACHINE = 2,
+  TEST_MACHINE = 3,
 }
 
 @Injectable({

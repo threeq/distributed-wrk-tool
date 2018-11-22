@@ -1,0 +1,32 @@
+<h2 mat-dialog-title>{{ 'Add Resource' | translate }}</h2>
+
+<mat-dialog-content class="mat-typography">
+  <mat-form-field class="full-width">
+    <input matInput placeholder="{{'Resource Name' | translate}}"
+           [(ngModel)]="machine.name"
+           cdkFocusInitial>
+    <!--<mat-error *ngIf="projectNameCtrl.invalid">{{'error-required' | translate}}</mat-error>-->
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <mat-select placeholder="{{'Resource Type' | translate}}"
+                [disabled]="machine.type===0"
+                [(value)]="machine.type">
+      <mat-option [value]="0">{{'Monitor Root'|translate}}</mat-option>
+      <mat-option [value]="1">{{'Monitor machine'|translate}}</mat-option>
+      <mat-option [value]="2">{{'Service machine'|translate}}</mat-option>
+      <mat-option [value]="3">{{'Test machine'|translate}}</mat-option>
+    </mat-select>
+    <!--<mat-error *ngIf="projectNameCtrl.invalid">{{'error-required' | translate}}</mat-error>-->
+  </mat-form-field>
+  <mat-form-field class="full-width">
+    <input matInput placeholder="{{'IP' | translate}}"
+           [(ngModel)]="machine.ip"
+    >
+    <!--<mat-error *ngIf="projectNameCtrl.invalid">{{'error-required' | translate}}</mat-error>-->
+  </mat-form-field>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>{{'Cancel' | translate}}</button>
+  <button mat-button (click)="onSaveClick()">{{'Save'| translate}}</button>
+</mat-dialog-actions>

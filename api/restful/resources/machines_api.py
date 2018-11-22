@@ -16,6 +16,7 @@ base_fields = {
     'name': fields.String,
     'type': fields.Integer,
     'ip': fields.String,
+    'parent': fields.String,
 }
 
 detail_marshal = marshal_wrapper(base_fields)
