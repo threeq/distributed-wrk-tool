@@ -11,10 +11,17 @@
     <mat-select placeholder="{{'Resource Type' | translate}}"
                 [disabled]="machine.type===0"
                 [(value)]="machine.type">
-      <mat-option [value]="0">{{'Monitor Root'|translate}}</mat-option>
+      <mat-option [value]="0" [disabled]="true">{{'Monitor Root'|translate}}</mat-option>
       <mat-option [value]="1">{{'Monitor machine'|translate}}</mat-option>
       <mat-option [value]="2">{{'Service machine'|translate}}</mat-option>
       <mat-option [value]="3">{{'Test machine'|translate}}</mat-option>
+    </mat-select>
+    <!--<mat-error *ngIf="projectNameCtrl.invalid">{{'error-required' | translate}}</mat-error>-->
+  </mat-form-field>
+  <mat-form-field class="full-width" *ngIf="machine.type!==0">
+    <mat-select placeholder="{{'Monitor Machine' | translate}}"
+                [(value)]="machine.parent">
+      <mat-option [value]="p._id" *ngFor="let p of machineList">{{p.name}} ({{p.ip}})</mat-option>
     </mat-select>
     <!--<mat-error *ngIf="projectNameCtrl.invalid">{{'error-required' | translate}}</mat-error>-->
   </mat-form-field>

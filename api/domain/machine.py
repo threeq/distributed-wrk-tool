@@ -24,11 +24,23 @@ class Machine(Entity):
 
         docs = storage.find({'name': self.name})
         if len(docs) != 0:
-            raise DomainException(Code.EXIST_DATA, 'machine name exist')
+            # add validation
+            if self.id() is None:
+                raise DomainException(Code.EXIST_DATA, 'machine name exist')
+            # editor validation
+            doc = docs[0]
+            if doc.id() != self.id():
+                raise DomainException(Code.EXIST_DATA, 'machine name exist')
 
         docs = storage.find({'ip': self.ip, 'type': self.type})
         if len(docs) != 0:
-            raise DomainException(Code.EXIST_DATA, 'machine ip exist')
+            # add validation
+            if self.id() is None:
+                raise DomainException(Code.EXIST_DATA, 'machine ip exist')
+            # editor validation
+            doc = docs[0]
+            if doc.id() != self.id():
+                raise DomainException(Code.EXIST_DATA, 'machine ip exist')
 
         if self.type is 0:
             docs = storage.find({'type': self.type})

@@ -1,73 +1,15 @@
 <div class="flex-container">
-<!--  <div class="flex-col">
-    <mat-card class="flex-col-content">
-      <h3>监控资源</h3>
-      <mat-card class="card-content" *ngFor="let machine of machines">
-        <mat-card-header>
-          <mat-card-title>{{machine.name}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p>
-            {{machine.type==1?'Server Machine':'Test Machine'}}
-          </p>
-          <p>
-            {{machine.ip}}
-          </p>
-        </mat-card-content>
-        <mat-card-actions>
-          <a mat-button (click)="onDelete(machine)">{{'Delete' | translate}}</a>
-          <a mat-button (click)="editResource(machine)">{{"Detail" | translate}}</a>
-        </mat-card-actions>
-      </mat-card>
-    </mat-card>
-  </div>
-  <div class="flex-col-2">
-    <mat-card class="flex-col-content">
-      <h3>测试资源</h3>
-      <mat-card class="card-content" *ngFor="let machine of machines">
-        <mat-card-header>
-          <mat-card-title>{{machine.name}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p>
-            {{machine.type==1?'Server Machine':'Test Machine'}}
-          </p>
-          <p>
-            {{machine.ip}}
-          </p>
-        </mat-card-content>
-        <mat-card-actions>
-          <a mat-button (click)="onDelete(machine)">{{'Delete' | translate}}</a>
-          <a mat-button (click)="editResource(machine)">{{"Detail" | translate}}</a>
-        </mat-card-actions>
-      </mat-card>
-    </mat-card>
-  </div>
-  <div class="flex-col-2">
-    <mat-card class="flex-col-content">
-      <h3>服务资源</h3>
-      <mat-card class="card-content" *ngFor="let machine of machines">
-        <mat-card-header>
-          <mat-card-title>{{machine.name}}</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <p>
-            {{machine.type==1?'Server Machine':'Test Machine'}}
-          </p>
-          <p>
-            {{machine.ip}}
-          </p>
-        </mat-card-content>
-        <mat-card-actions>
-          <a mat-button (click)="onDelete(machine)">{{'Delete' | translate}}</a>
-          <a mat-button (click)="editResource(machine)">{{"Detail" | translate}}</a>
-        </mat-card-actions>
-      </mat-card>
-    </mat-card>
-  </div>-->
+
   <div class="flex-col">
-    <div (click)="addRootMonitorNode()">{{'Add Root Monitor Node'}}</div>
-    <div id="myDiagramDiv" style="height: 200px"></div>
+    <button mat-button (click)="addRootMonitorNode()" *ngIf="!hasRoot">
+      {{'Add Root Monitor Node'}}
+    </button>
+    <div class="flex-col-6">
+      <div id="myDiagramDiv" style="height: 600px; width: 100%; border: 1px solid #000000"></div>
+    </div>
+    <div class="flex-col-3">
+      <div class="machine-detail"></div>
+    </div>
   </div>
 </div>
 

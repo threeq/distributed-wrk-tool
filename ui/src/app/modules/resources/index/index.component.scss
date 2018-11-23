@@ -5,6 +5,8 @@
 
 .flex-col {
   width: 100%;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .flex-col-2 {
@@ -15,6 +17,10 @@
   width: 33.33%;
 }
 
+.flex-col-6 {
+  width: 66.66%;
+}
+
 .flex-col-content {
   margin: 20px;
 }
@@ -23,3 +29,5 @@
   display: inline-block;
   margin: 10px;
 }
+
+.machine-detail {}

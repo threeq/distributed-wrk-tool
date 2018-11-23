@@ -1,6 +1,7 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialogRef, MatSnackBar} from "@angular/material";
-import {Machine, MachinesApiService} from "../../@common/api/machines-api.service";
+import {Machine, MachinesApiService, MachineType} from "../../@common/api/machines-api.service";
+import * as _ from "lodash";
 
 @Component({
   selector: 'app-project-resource-add',
@@ -8,6 +9,8 @@ import {Machine, MachinesApiService} from "../../@common/api/machines-api.servic
   styleUrls: ['./resource-add.component.scss']
 })
 export class ResourceAddComponent {
+  machineList: Machine[];
+
   constructor(
     private dialogRef: MatDialogRef<ResourceAddComponent>,
     private machinesApi: MachinesApiService,
@@ -17,6 +20,12 @@ export class ResourceAddComponent {
     if(!this.machine) {
       this.machine = new Machine();
     }
+
+    this.machinesApi.page().subscribe(response=>{
+      this.machineList = _.filter(response.data.list, (it: Machine) => {
+        return it.type === MachineType.MONITOR_ROOT || it.type === MachineType.MONITOR_MACHINE;
+      });
+    })
   }
 
   onSaveClick(): void {

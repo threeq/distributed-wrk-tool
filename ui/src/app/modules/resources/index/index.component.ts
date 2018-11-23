@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {Machine, MachinesApiService, MachineType} from "../../@common/api/machines-api.service";
 import {Router} from "@angular/router";
 import {MatDialog, MatSnackBar} from "@angular/material";
-import * as go from "gojs/release/go";
+import * as go from "gojs";
 import * as _ from 'lodash';
 import {ResourceAddComponent} from "../add/resource-add.component";
 
@@ -17,6 +17,7 @@ export class IndexComponent implements OnInit {
 
   machines: Machine[];
   myDiagram: go.Diagram;
+  hasRoot: boolean = true;
 
   constructor(private router: Router,
               private machinesApi: MachinesApiService,
@@ -26,11 +27,25 @@ export class IndexComponent implements OnInit {
     this.refreshData();
   }
 
-  ngOnInit() {
+  addMachine(machine: Machine) {
+    let newMachine = new Machine();
+    newMachine.name = '主机';
+    newMachine.ip = '127.0.0.1';
+    newMachine.parent = machine._id;
 
-    function toggleChildren() {
-      console.log('toggleChildren', arguments)
-    }
+    this.editResource(newMachine);
+  }
+
+  editMachine(machine: Machine) {
+    this.editResource(machine);
+
+  }
+
+  delMachine(machine: Machine) {
+    this.deleteResource(machine._id);
+  }
+
+  ngOnInit() {
 
     // define a simple Node template
     let defaultAdornment =
@@ -47,18 +62,32 @@ export class IndexComponent implements OnInit {
           {
             alignment: go.Spot.Bottom,
           },
-          nodeBtn('添加'),
-          nodeBtn('修改'),
-          nodeBtn('删除')
+          nodeBtn('添加', (nodeData)=>this.addMachine(nodeData.data)),
+          nodeBtn('修改', (nodeData)=>this.editMachine(nodeData.data)),
+          nodeBtn('删除', (nodeData)=>this.delMachine(nodeData.data))
         )
       )
     ;
 
-    function nodeBtn(text,) {
+    function nodeBtn(text, fn) {
       return $('Button',
         {
-          click: toggleChildren
+          click: function toggleChildren(e, obj) {
+            let clickedNode = obj.part;
+            if (clickedNode !== null) {
+              fn && fn(clickedNode.data);
+            }
+          }
         },
+        new go.Binding('visible', '', function (a) {
+          let type = a.data.category;
+          if(text === '删除' && type === 'root') {
+            return false;
+          } else if((text==='添加' && (type==='test' || type==='service'))) {
+            return false;
+          }
+          return true;
+        }).ofObject(),
         $(go.TextBlock, "Reason",
           {
             text: text,
@@ -159,32 +188,24 @@ export class IndexComponent implements OnInit {
       });
 
       if (root.length === 0) {
-        console.log('add root');
+        this.hasRoot = false;
         return;
       } else {
-        root = root[0];
+        this.hasRoot = true;
       }
 
       let model = $(go.TreeModel);
-      let a = _.map(response.data.list, it => {
+      model.nodeDataArray = _.map(response.data.list, it => {
         return {
           category: typeMapping[it.type],
           parent: it.parent ? it.parent : '',
-          key: it.ip,
+          key: it._id,
           ip: it.ip,
-          name: it.name
+          name: it.name,
+          data: it
         }
       });
-      let it = response.data.list[0];
-      a.push({
-        category: 'service',
-        parent: it.ip,
-        key: 'xxx',
-        ip: it.ip,
-        name: 'service'
-      });
 
-      model.nodeDataArray = a;
       this.myDiagram.model = model;
     })
   }
@@ -207,5 +228,13 @@ export class IndexComponent implements OnInit {
         this.refreshData();
       }
     });
+  }
+
+  deleteResource(id) {
+    this.machinesApi.delete(id).subscribe(result => {
+      if (result) {
+        this.refreshData();
+      }
+    })
   }
 }
