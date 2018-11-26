@@ -1,6 +1,24 @@
 <h2 mat-dialog-title>{{ 'Add Resource' | translate }}</h2>
 
-<mat-dialog-content class="mat-typography">
+<mat-dialog-content class="project-add-resource" class="mat-typography">
+  <form [formGroup]="ipFrom">
+    <mat-form-field class="full-width">
+      <input type="text" matInput
+             placeholder="{{'IP' | translate}}"
+             formControlName="ipFromCtrl"
+             required [matAutocomplete]="autoGroup">
+      <mat-autocomplete #autoGroup="matAutocomplete">
+        <mat-optgroup *ngFor="let group of machineGroupOptions | async"
+                      [label]="group.type">
+          <mat-option *ngFor="let machine of group.machines" [value]="machine">
+            {{machine.name}} ({{machine.ip}})
+          </mat-option>
+        </mat-optgroup>
+      </mat-autocomplete>
+      <mat-icon class="cursor" matSuffix (click)="onAddNewMachine($event)">add_circle_outline</mat-icon>
+    </mat-form-field>
+  </form>
+
   <mat-form-field class="full-width">
     <input matInput placeholder="{{'Resource Name' | translate}}"
            [(ngModel)]="machine.name"
@@ -13,12 +31,6 @@
       <mat-option [value]="1">{{'Server machine'|translate}}</mat-option>
       <mat-option [value]="2">{{'Test machine'|translate}}</mat-option>
     </mat-select>
-    <!--<mat-error *ngIf="projectNameCtrl.invalid">{{'error-required' | translate}}</mat-error>-->
-  </mat-form-field>
-  <mat-form-field class="full-width">
-    <input matInput placeholder="{{'IP' | translate}}"
-           [(ngModel)]="machine.ip"
-    >
     <!--<mat-error *ngIf="projectNameCtrl.invalid">{{'error-required' | translate}}</mat-error>-->
   </mat-form-field>
 </mat-dialog-content>

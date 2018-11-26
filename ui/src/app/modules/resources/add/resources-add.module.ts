@@ -1,7 +1,5 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {IndexComponent} from './index/index.component';
-import {RouterModule} from "@angular/router";
 import {
   MatButtonModule,
   MatCardModule,
@@ -10,10 +8,10 @@ import {
   MatSelectModule,
   MatSnackBarModule
 } from "@angular/material";
-import {ApiModule} from "../@common/api/api.module";
+import {ApiModule} from "../../@common/api/api.module";
 import {TranslateModule} from "@ngx-translate/core";
 import {FormsModule} from "@angular/forms";
-import {ResourcesAddModule} from "./add/resources-add.module";
+import {ResourceAddComponent} from "./resource-add.component";
 
 @NgModule({
   imports: [
@@ -30,19 +28,11 @@ import {ResourcesAddModule} from "./add/resources-add.module";
     MatInputModule,
     MatIconModule,
 
-    ResourcesAddModule,
-    ApiModule,
-    RouterModule.forChild([
-      {
-        path: '',
-        pathMatch: 'full',
-        component: IndexComponent,
-      },
-    ])
+    ApiModule
   ],
-  exports: [RouterModule],
-  declarations: [IndexComponent],
-  entryComponents: []
+  declarations: [ResourceAddComponent],
+  entryComponents: [ResourceAddComponent],
+  exports:[ResourceAddComponent]
 })
-export class ResourcesModule {
+export class ResourcesAddModule {
 }

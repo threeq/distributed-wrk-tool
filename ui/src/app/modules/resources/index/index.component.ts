@@ -62,9 +62,9 @@ export class IndexComponent implements OnInit {
           {
             alignment: go.Spot.Bottom,
           },
-          nodeBtn('添加', (nodeData)=>this.addMachine(nodeData.data)),
-          nodeBtn('修改', (nodeData)=>this.editMachine(nodeData.data)),
-          nodeBtn('删除', (nodeData)=>this.delMachine(nodeData.data))
+          nodeBtn('添加', (nodeData) => this.addMachine(nodeData.data)),
+          nodeBtn('修改', (nodeData) => this.editMachine(nodeData.data)),
+          nodeBtn('删除', (nodeData) => this.delMachine(nodeData.data))
         )
       )
     ;
@@ -81,9 +81,9 @@ export class IndexComponent implements OnInit {
         },
         new go.Binding('visible', '', function (a) {
           let type = a.data.category;
-          if(text === '删除' && type === 'root') {
+          if (text === '删除' && type === 'root') {
             return false;
-          } else if((text==='添加' && (type==='test' || type==='service'))) {
+          } else if ((text === '添加' && (type === 'test' || type === 'service'))) {
             return false;
           }
           return true;
@@ -110,7 +110,7 @@ export class IndexComponent implements OnInit {
           nodeSelectionAdornmentTemplate: defaultAdornment
         });
 
-    function nodeStyle(color) {
+    function nodeStyle(color, category) {
       return [
         // {selectionAdornmentTemplate: defaultAdornment},
         $(go.Panel, "Auto",
@@ -121,7 +121,15 @@ export class IndexComponent implements OnInit {
           $(go.Panel, 'Vertical',
             $(go.TextBlock, textStyle(),
               {
-                margin: 8,
+                margin: 4,
+                // maxSize: new go.Size(400, 400),
+                wrap: go.TextBlock.WrapFit,
+                editable: false,
+                text: '《' + category + '》'
+              }),
+            $(go.TextBlock, textStyle(),
+              {
+                // margin: 8,
                 // maxSize: new go.Size(400, 400),
                 wrap: go.TextBlock.WrapFit,
                 editable: false,
@@ -147,7 +155,7 @@ export class IndexComponent implements OnInit {
     }
 
     this.myDiagram.nodeTemplateMap.add("root",
-      $(go.Node, "Table", nodeStyle('#0dc932'),
+      $(go.Node, "Table", nodeStyle('#0dc932', '管理机'),
         // 右边展开折叠按钮
         $("TreeExpanderButton",
           {alignment: go.Spot.RightCenter, alignmentFocus: go.Spot.Top},
@@ -158,7 +166,7 @@ export class IndexComponent implements OnInit {
       ));
     // define a simple Node template
     this.myDiagram.nodeTemplateMap.add("monitor",
-      $(go.Node, "Table", nodeStyle('#c9c023'),
+      $(go.Node, "Table", nodeStyle('#c9c023', '监控机'),
         // 右边展开折叠按钮
         $("TreeExpanderButton",
           {alignment: go.Spot.RightCenter, alignmentFocus: go.Spot.Top},
@@ -168,11 +176,11 @@ export class IndexComponent implements OnInit {
         ),
       ));
     this.myDiagram.nodeTemplateMap.add("test",
-      $(go.Node, "Table", nodeStyle('#4697c9'),
+      $(go.Node, "Table", nodeStyle('#4697c9', '测试机'),
       ));
 
     this.myDiagram.nodeTemplateMap.add("service",
-      $(go.Node, "Table", nodeStyle('#ff899f'),
+      $(go.Node, "Table", nodeStyle('#ff899f', '服务器'),
       ));
 
   }
@@ -191,7 +199,7 @@ export class IndexComponent implements OnInit {
         this.hasRoot = false;
         return;
       } else {
-        this.hasRoot = true;
+        this.hasRoot = false;
       }
 
       let model = $(go.TreeModel);
@@ -212,7 +220,7 @@ export class IndexComponent implements OnInit {
 
   addRootMonitorNode() {
     let defaultRoot = new Machine();
-    defaultRoot.name = 'Promethues 监控';
+    defaultRoot.name = '监控机';
     defaultRoot.type = MachineType.MONITOR_ROOT;
     defaultRoot.ip = '127.0.0.1';
 

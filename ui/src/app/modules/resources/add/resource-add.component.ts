@@ -30,7 +30,7 @@ export class ResourceAddComponent {
 
   onSaveClick(): void {
     this.machinesApi.add(this.machine).subscribe(ok => {
-      this.dialogRef.close(true);
+      this.dialogRef.close(ok.data);
     }, err => {
       this.snackBar.open(err.error.msg, "OK", {
         duration: 2000,

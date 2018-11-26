@@ -5,6 +5,7 @@ import {ProjectsComponent} from "./projects.component";
 import {ProjectAddDialogComponent} from "./project-add-dialog/project-add-dialog.component";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {
+  MatAutocompleteModule,
   MatBadgeModule,
   MatButtonModule,
   MatCardModule,
@@ -25,6 +26,7 @@ import {CodemirrorModule} from "../../plugins/codemirror/codemirror.module";
 import {EchartsNg2Module} from "echarts-ng2";
 import {ProjectResourceComponent} from './project-resource/project-resource.component';
 import {ProjectResourceAddComponent} from './project-resource-add/project-resource-add.component';
+import {ResourcesAddModule} from "../resources/add/resources-add.module";
 
 @NgModule({
   imports: [
@@ -33,6 +35,7 @@ import {ProjectResourceAddComponent} from './project-resource-add/project-resour
     ReactiveFormsModule,
     TranslateModule,
 
+    MatAutocompleteModule,
     MatDialogModule,
     MatInputModule,
     MatSelectModule,
@@ -50,6 +53,7 @@ import {ProjectResourceAddComponent} from './project-resource-add/project-resour
     ConfirmModule,
     FuncViewModule,
     CodemirrorModule,
+    ResourcesAddModule,
 
     RouterModule.forChild([
       {

@@ -53,23 +53,34 @@ export class ProjectResourceComponent implements OnInit {
   }
 
   addResource() {
-    const dialogRef = this.dialog.open(ProjectResourceAddComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.refreshData();
-      }
+    this.machinesApi.page().subscribe(response => {
+      const dialogRef = this.dialog.open(ProjectResourceAddComponent, {
+        data: {
+          machines: response.data.list
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.refreshData();
+        }
+      });
     });
   }
 
   editResource(resource) {
-    const dialogRef = this.dialog.open(ProjectResourceAddComponent, {
-      data: _.cloneDeep(resource)
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.refreshData();
-      }
-    });
+    this.machinesApi.page().subscribe(response => {
+      const dialogRef = this.dialog.open(ProjectResourceAddComponent, {
+        data: {
+          machines: response.data.list,
+          machine: _.cloneDeep(resource)
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.refreshData();
+        }
+      });
+    })
   }
 
   onDelete(resource) {
