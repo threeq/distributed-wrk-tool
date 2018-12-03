@@ -1,6 +1,6 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar} from "@angular/material";
-import {Machine, MachinesApiService} from "../../@common/api/machines-api.service";
+import {Machine, MachinesApiService, MachineTypeDesc} from "../../@common/api/machines-api.service";
 import {map, startWith} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {FormBuilder, FormGroup} from "@angular/forms";
@@ -55,7 +55,7 @@ export class ProjectResourceAddComponent implements OnInit {
     let tempGroup = {};
     inputData.machines.forEach(it => {
       let group = {
-        type: it.type,
+        type: MachineTypeDesc[it.type],
         machines: [],
       };
       if (tempGroup.hasOwnProperty(it.type)) {
@@ -101,7 +101,7 @@ export class ProjectResourceAddComponent implements OnInit {
     });
   }
 
-  private _filterGroup(value: string): MachineGroup[] {
+  private _filterGroup(value: any): MachineGroup[] {
     if (_.isObject(value)) {
       this.machine = <Machine>value;
       value = this.machine.ip;

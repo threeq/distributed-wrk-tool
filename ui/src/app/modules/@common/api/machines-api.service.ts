@@ -22,6 +22,8 @@ export enum MachineType {
   TEST_MACHINE = 3,
 }
 
+export let MachineTypeDesc = ['Monitor Root Machine','Monitor Machine','Server Machine','Test Machine'];
+
 @Injectable({
   providedIn: 'root'
 })

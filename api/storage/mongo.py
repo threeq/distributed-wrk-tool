@@ -15,11 +15,14 @@ class MgoCrud:
     def doc2entity(self, doc):
         pass
 
+    def id_wrapper(self, _id):
+        return ObjectId(_id)
+
     def delete(self, _id):
         result = self.collection.delete_one({'_id': ObjectId(_id)})
         return result
 
-    def find(self, filter=None, sorts=None, page=None):
+    def find(self, search=None, sorts=None, page=None):
         """
         - `filter` 过滤参数
         - `sorts` 排序参数 [{'field1':1}, {'field2':-1}]
@@ -27,14 +30,14 @@ class MgoCrud:
         - `page` 分页参数 { num: 1, size: 10 }
            num: 页数
            size: 页大小
-        :param filter:
+        :param search:
         :param sorts:
         :param page:
         :return:
         """
 
         # 过滤
-        docs = self.collection.find(filter)
+        docs = self.collection.find(search)
 
         # 排序
         if sorts is not None:
@@ -50,23 +53,23 @@ class MgoCrud:
 
         return [self.doc2entity(doc) for doc in docs]
 
-    def count(self, filter=None):
-        return self.collection.count_documents(filter)
+    def count(self, search=None):
+        return self.collection.count_documents(search)
 
-    def save(self, user):
-        data = {k: v for k, v in vars(user).items() if v is not None}  # loginStatus.__dict__
+    def save(self, entity):
+        data = {k: v for k, v in vars(entity).items() if v is not None}  # loginStatus.__dict__
 
-        return self.__do_write(user.id(), data)
+        return self.__do_write(entity.id(), data)
 
-    def get(self, user_id):
-        doc = self.collection.find_one({'_id': ObjectId(user_id)})
+    def get(self, _id):
+        doc = self.collection.find_one({'_id': ObjectId(_id)})
 
         return self.doc2entity(doc) if doc is not None else None
 
-    def overwrite(self, user):
-        data = vars(user)
+    def overwrite(self, entity):
+        data = vars(entity)
 
-        return self.__do_write(user.id(), data)
+        return self.__do_write(entity.id(), data)
 
     def __do_write(self, _id, data):
         if _id is None:

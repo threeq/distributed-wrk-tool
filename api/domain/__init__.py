@@ -24,6 +24,10 @@ class Storage:
     def find(self, *args, **kwargs):
         pass
 
+    @abc.abstractmethod
+    def id_wrapper(self, _id):
+        pass
+
 
 class Entity:
     def __init__(self, **kwargs):
@@ -58,7 +62,7 @@ class ApplicationService:
         return entity.save(self.storage)
 
     def find(self, filter=None, sort=None, page=None):
-        return self.storage.find(filter=filter, sorts=sort, page=page)
+        return self.storage.find(search=filter, sorts=sort, page=page)
 
     def delete(self, user_id):
         self.storage.delete(user_id)

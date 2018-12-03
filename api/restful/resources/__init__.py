@@ -35,6 +35,9 @@ class BaseResourceApi(Resource):
 
         return marshal(ResponseEntity(data=RollPage(list=page)), self.page_marshal)
 
+    def not_allow_method(self):
+        return ResponseEntity(code=Code.NOT_ALLOW_METHOD), 405
+
     def get(self, _id=None):
 
         if _id is None:
@@ -61,7 +64,6 @@ class BaseResourceApi(Resource):
     def post(self):
         data = request.get_json()
         entity = self.service.save(self.json2entity(data))
-        print(entity.id())
         return marshal(ResponseEntity(data=self.service.detail(entity.id())), self.detail_marshal)
 
     @abc.abstractmethod
