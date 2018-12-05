@@ -5,8 +5,9 @@ import {Project, ProjectsApiService} from "../../@common/api/projects-api.servic
 import {MatDialog, MatSnackBar} from "@angular/material";
 import {Machine, MachinesApiService} from "../../@common/api/machines-api.service";
 import {ProjectResourceAddComponent} from "../project-resource-add/project-resource-add.component";
-import _ from 'lodash'
+import * as _ from 'lodash'
 import {ConfirmComponent} from "../../../plugins/confirm/confirm.component";
+import {filter, map} from "rxjs/operators";
 
 @Component({
   selector: 'app-project-resource',
@@ -17,6 +18,7 @@ export class ProjectResourceComponent implements OnInit {
 
   project: Project = new Project();
   machines: Machine[];
+  private hasMachineIds: {};
 
   constructor(
     private router: Router,
@@ -47,43 +49,62 @@ export class ProjectResourceComponent implements OnInit {
   }
 
   refreshData() {
-    this.machinesApi.page().subscribe(response => {
-      this.machines = response.data.list;
+    this.projectsApi.resource(this.project._id).subscribe(response => {
+      this.machines = response.data;
+      this.hasMachineIds = _.keyBy(this.machines, '_id')
+    });
+  }
+
+  _enableSelectMachines() {
+    return this.machinesApi.page()
+      .pipe(map(it => _.filter(it.data.list, i => !this.hasMachineIds.hasOwnProperty(i._id))));
+  }
+
+  resourceAdd() {
+    this._enableSelectMachines().subscribe(list => {
+      // 过滤已经存在的资源
+      const dialogRef = this.dialog.open(ProjectResourceAddComponent, {
+        data: {
+          machines: list,
+          projectId: this.project._id
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.refreshData();
+        }
+      });
+    });
+  }
+
+  resourceDetail(resource) {
+    this._enableSelectMachines().subscribe(list => {
+      const dialogRef = this.dialog.open(ProjectResourceAddComponent, {
+        data: {
+          machines: list,
+          machine: _.cloneDeep(resource)
+        }
+      });
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.refreshData();
+        }
+      });
     })
-  }
-
-  addResource() {
-    const dialogRef = this.dialog.open(ProjectResourceAddComponent);
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.refreshData();
-      }
-    });
-  }
-
-  editResource(resource) {
-    const dialogRef = this.dialog.open(ProjectResourceAddComponent, {
-      data: _.cloneDeep(resource)
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        this.refreshData();
-      }
-    });
   }
 
   onDelete(resource) {
     const dialogRef = this.dialog.open(ConfirmComponent, {
       width: '450px',
       data: {
-        title: "Delete Rerouce",
+        title: "Delete Resource",
         content: `Are you sure you want to delete [${resource.name}] ?<br>
                   <em>This resource is not being monitored !</em>`,
       }
     });
     dialogRef.afterClosed().subscribe(ok => {
       if (ok) {
-        this.machinesApi.delete(resource._id).subscribe(ok => {
+        this.projectsApi.delResource(this.project._id, resource._id).subscribe(ok => {
           this.snackBar.open(ok.msg, "OK", {
             duration: 2000,
           });
