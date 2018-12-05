@@ -15,10 +15,14 @@ class ProjectStorageMgo(MgoCrud, ProjectStorage):
         docs = self.project_resource_storage.find({'project_id': project_id, 'resource_id': resource_id})
         if len(docs) == 0:
             return
-        docs = docs[0]
-        return self.project_resource_storage.delete(docs._id)
+        return self.project_resource_storage.delete(docs[0]._id)
 
     def add_resource(self, project_resource: ProjectResource):
+        docs = self.project_resource_storage.find({
+            'project_id': project_resource.project_id,
+            'resource_id': project_resource.resource_id})
+        if len(docs) > 0:
+            return docs[0]
         return self.project_resource_storage.save(project_resource)
 
     def doc2entity(self, doc):

@@ -61,7 +61,6 @@ class ProjectService(ApplicationService):
         return self.machineStorage.find({"_id": {"$in": machineIds}})
 
     def add_resource(self, project_resource: ProjectResource):
-        # TODO 判断是否重复
         return self.storage.add_resource(project_resource)
 
     def del_resource(self, project_id, resource_id):
