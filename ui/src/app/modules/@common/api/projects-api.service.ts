@@ -36,13 +36,13 @@ export class ProjectsApiService extends ResourceApi<Project> {
 
   addResource(projectId, machineId: string): Observable<ResponseEntity> {
     return this.http.post<ResponseEntity<any>>(this.resourceUrl + '/' + projectId + '/resource',
-      {machineId: machineId})
+      {resource_id: machineId})
       .pipe(map(obj => _.extend(new ResponseEntity<any>(), obj)))
   }
 
 
-  delResource(projectId, machineId: string): Observable<ResponseEntity> {
-    return this.http.delete<ResponseEntity<any>>(this.resourceUrl + '/' + projectId + '/resource' + machineId)
+  delResource(projectId, shipId: string): Observable<ResponseEntity> {
+    return this.http.delete<ResponseEntity<any>>(this.resourceUrl + '/' + projectId + '/resource/' + shipId)
       .pipe(map(obj => _.extend(new ResponseEntity<any>(), obj)))
   }
 

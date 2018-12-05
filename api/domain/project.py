@@ -43,7 +43,7 @@ class ProjectStorage(Storage, ABC):
         pass
 
     @abc.abstractmethod
-    def del_resource(self, project_resource_id):
+    def del_resource(self, project_id, resource_id):
         pass
 
 
@@ -57,11 +57,12 @@ class ProjectService(ApplicationService):
         if len(resourceIds) == 0:
             return []
 
-        machineIds = [self.machineStorage.id_wrapper(resourceId.project_id) for resourceId in resourceIds]
+        machineIds = [self.machineStorage.id_wrapper(item.resource_id) for item in resourceIds]
         return self.machineStorage.find({"_id": {"$in": machineIds}})
 
     def add_resource(self, project_resource: ProjectResource):
+        # TODO 判断是否重复
         return self.storage.add_resource(project_resource)
 
-    def del_resource(self, project_resource_id):
-        return self.storage.del_resource(project_resource_id)
+    def del_resource(self, project_id, resource_id):
+        return self.storage.del_resource(project_id, resource_id)

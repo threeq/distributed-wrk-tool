@@ -15,18 +15,22 @@
           </mat-option>
         </mat-optgroup>
       </mat-autocomplete>
-      <mat-icon class="cursor" matSuffix (click)="onAddNewMachine($event)">add_circle_outline</mat-icon>
+      <mat-icon class="cursor"
+                *ngIf="isAdd"
+                matSuffix (click)="onAddNewMachine($event)">add_circle_outline</mat-icon>
     </mat-form-field>
   </form>
 
   <mat-form-field class="full-width">
     <input matInput placeholder="{{'Resource Name' | translate}}"
            [(ngModel)]="machine.name"
+           [disabled]="true"
            cdkFocusInitial>
     <!--<mat-error *ngIf="projectNameCtrl.invalid">{{'error-required' | translate}}</mat-error>-->
   </mat-form-field>
   <mat-form-field class="full-width">
     <mat-select placeholder="{{'Resource Type' | translate}}"
+                [disabled]="true"
                 [(value)]="machine.type">
       <mat-option [value]="1">{{'Server machine'|translate}}</mat-option>
       <mat-option [value]="2">{{'Test machine'|translate}}</mat-option>
@@ -36,6 +40,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>{{'Cancel' | translate}}</button>
-  <button mat-button (click)="onSaveClick()">{{'Save'| translate}}</button>
+  <button mat-button mat-dialog-close>{{(isEdit ? 'OK' : 'Cancel') | translate}}</button>
+  <button *ngIf="!isEdit" mat-button (click)="onSaveClick()">{{'Save'| translate}}</button>
 </mat-dialog-actions>

@@ -1,11 +1,12 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatSnackBar} from "@angular/material";
-import {Machine, MachinesApiService, MachineTypeDesc} from "../../@common/api/machines-api.service";
+import {Machine, MachineTypeDesc} from "../../@common/api/machines-api.service";
 import {map, startWith} from "rxjs/operators";
 import {Observable} from "rxjs";
 import {FormBuilder, FormGroup} from "@angular/forms";
 import {ResourceAddComponent} from "../../resources/add/resource-add.component";
 import * as _ from "lodash";
+import {ProjectsApiService} from "../../@common/api/projects-api.service";
 
 
 export const _filter = (opt: Machine[], value: string): Machine[] => {
@@ -16,6 +17,7 @@ export const _filter = (opt: Machine[], value: string): Machine[] => {
 
 
 interface InputData {
+  projectId: string,
   machine: Machine,
   machines: Machine[]
 }
@@ -35,25 +37,35 @@ export class ProjectResourceAddComponent implements OnInit {
   machineGroups: MachineGroup[] = [];
 
   machine = new Machine();
+  projectId: string;
 
   ipFrom: FormGroup = this.fb.group({
     ipFromCtrl: '',
   });
   machineGroupOptions: Observable<MachineGroup[]>;
+  isEdit: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<ProjectResourceAddComponent>,
     private dialog: MatDialog,
-    private machinesApi: MachinesApiService,
+    private projectApi: ProjectsApiService,
     private snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public inputData: InputData
   ) {
-    if (inputData.machine) {
-      this.machine = inputData.machine;
+  }
+
+  ngOnInit(): void {
+    if (this.inputData.machine) {
+      this.machine = this.inputData.machine;
+      this.isEdit = true;
+      this.ipFrom.get('ipFromCtrl')!.setValue(this.machine.ip);
+      this.ipFrom.get('ipFromCtrl')!.disable();
     }
+
+    this.projectId = this.inputData.projectId;
     let tempGroup = {};
-    inputData.machines.forEach(it => {
+    this.inputData.machines.forEach(it => {
       let group = {
         type: MachineTypeDesc[it.type],
         machines: [],
@@ -65,27 +77,30 @@ export class ProjectResourceAddComponent implements OnInit {
         this.machineGroups.push(<MachineGroup>group)
       }
       group.machines.push(it);
-    })
-  }
+    });
 
-  ngOnInit(): void {
     this.machineGroupOptions = this.ipFrom.get('ipFromCtrl')!.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filterGroup(value))
       );
+
   }
 
   onSaveClick(): void {
-    // TODO 将机器绑定到项目监控资源中
-    // console.log('stateGroup', this.ipFrom.get('ipFromCtrl').value);
-    // this.machinesApi.add(this.machine).subscribe(ok => {
-    //   this.dialogRef.close(true);
-    // }, err => {
-    //   this.snackBar.open(err.error.msg, "OK", {
-    //     duration: 2000,
-    //   })
-    // })
+    if (!this.machine._id) {
+      this.snackBar.open('Please select machine', "OK", {
+        duration: 2000,
+      });
+      return
+    }
+    this.projectApi.addResource(this.projectId, this.machine._id).subscribe(ok => {
+      this.dialogRef.close(true);
+    }, err => {
+      this.snackBar.open(err.error.msg, "OK", {
+        duration: 2000,
+      })
+    })
   }
 
   onAddNewMachine(event: Event) {

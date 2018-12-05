@@ -11,8 +11,12 @@ class ProjectStorageMgo(MgoCrud, ProjectStorage):
         MgoCrud.__init__(self, project_collection)
         self.project_resource_storage = ProjectResourceStorageMgo()
 
-    def del_resource(self, project_resource_id):
-        return self.project_resource_storage.delete(project_resource_id)
+    def del_resource(self, project_id, resource_id):
+        docs = self.project_resource_storage.find({'project_id': project_id, 'resource_id': resource_id})
+        if len(docs) == 0:
+            return
+        docs = docs[0]
+        return self.project_resource_storage.delete(docs._id)
 
     def add_resource(self, project_resource: ProjectResource):
         return self.project_resource_storage.save(project_resource)

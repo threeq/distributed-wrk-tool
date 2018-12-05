@@ -51,8 +51,8 @@ class ProjectResourceApi(Resource):
     def put(self):
         return self.not_allow_method()
 
-    def delete(self, _id):
-        self.service.del_resource(_id)
+    def delete(self, project_id, resource_id):
+        self.service.del_resource(project_id, resource_id)
         return marshal(ResponseEntity(), marshal_wrapper())
 
     def post(self, project_id=None):
